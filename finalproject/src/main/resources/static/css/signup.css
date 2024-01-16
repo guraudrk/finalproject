@@ -1,0 +1,197 @@
+
+html {
+	font-size:62.5%;
+}
+* {
+	margin: 0;
+	padding: 0;
+}
+ul, li {
+	list-style: none;
+}
+input {
+	border: none;
+}
+body {
+  width: 144rem;
+}.item--M9e {
+  box-sizing: border-box;
+  padding: 14.7rem 44.7rem 17.3rem 44.8rem;
+  width: 100%;
+  height: 80rem;
+  overflow: hidden;
+  position: relative;
+  background-color: #ffffff;
+  border-radius: 3rem;
+}
+.item--M9e .frame-3851-uD6 {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.item--M9e .frame-3851-uD6 .frame-3851-Chz {
+  margin-bottom: 4rem;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+.item--M9e .frame-3851-uD6 .frame-3851-Chz .roads-v8C {
+  margin-bottom: 2rem;
+  font-size: 5.4rem;
+  font-weight: 700;
+  line-height: 1.2175;
+  color: #000000;
+  font-family: Montserrat, 'Source Sans Pro';
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.item--M9e .frame-3851-uD6 .frame-3851-Chz .road-obstacle-ai-detection-service-kN8 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  line-height: 1.7142857143;
+  letter-spacing: 0.014rem;
+  color: #000000;
+  font-family: Montserrat, 'Source Sans Pro';
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.item--M9e .frame-3851-uD6 .frame-830-Msi {
+  width: 100%;
+  row-gap: 2rem;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+.item--M9e .frame-3851-uD6 .frame-830-Msi .text-field-GDz {
+  box-sizing: border-box;
+  padding: 1.3rem 2rem;
+  width: 100%;
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1.7142857143;
+  letter-spacing: 0.014rem;
+  color: #828282;
+  font-family: Montserrat, 'Source Sans Pro';
+  white-space: nowrap;
+  display: flex;
+  align-items: baseline;
+  border: solid 0.1rem #e0e0e0;
+  flex-shrink: 0;
+}
+.item--M9e .frame-3851-uD6 .frame-830-Msi .text-field-GDz .text-field-GDz-sub-0 {
+}
+.item--M9e .frame-3851-uD6 .frame-830-Msi .text-field-GDz .text-field-GDz-sub-1 {
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1.7142857143;
+  letter-spacing: 0.014rem;
+  color: #828282;
+  font-family: Montserrat, 'Source Sans Pro';
+}
+.item--M9e .frame-3851-uD6 .frame-830-Msi .text-field-GDz .text-field-GDz-sub-2 {
+}
+.item--M9e .frame-3851-uD6 .frame-830-Msi .text-field-oYg {
+  box-sizing: border-box;
+  padding: 1.3rem 2rem;
+  width: 100%;
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1.7142857143;
+  letter-spacing: 0.014rem;
+  color: #828282;
+  font-family: Montserrat, 'Source Sans Pro';
+  white-space: nowrap;
+  border: solid 0.1rem #e0e0e0;
+  flex-shrink: 0;
+}
+.item--M9e .frame-3851-uD6 .frame-830-Msi .text-field-ZAU {
+  box-sizing: border-box;
+  padding: 0.9rem 1.2rem 1rem 2rem;
+  width: 100%;
+  height: 5rem;
+  display: flex;
+  align-items: center;
+  border: solid 0.1rem #e0e0e0;
+  flex-shrink: 0;
+}
+.item--M9e .frame-3851-uD6 .frame-830-Msi .text-field-ZAU .email--DF2 {
+  margin: 0.1rem 30.4rem 0rem 0rem;
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1.7142857143;
+  letter-spacing: 0.014rem;
+  color: #828282;
+  font-family: Montserrat, 'Source Sans Pro';
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.item--M9e .frame-3851-uD6 .frame-830-Msi .text-field-ZAU .auto-group-fcrx-mQx {
+  width: 9.2rem;
+  height: 100%;
+  position: relative;
+  flex-shrink: 0;
+}
+.item--M9e .frame-3851-uD6 .frame-830-Msi .text-field-ZAU .auto-group-fcrx-mQx .rectangle-1899-GMi {
+  width: 9.2rem;
+  height: 3.1rem;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: #5491f5;
+}
+.item--M9e .frame-3851-uD6 .frame-830-Msi .text-field-ZAU .auto-group-fcrx-mQx .item--ZLp {
+  width: 5.2rem;
+  height: 2.4rem;
+  position: absolute;
+  left: 0.7rem;
+  top: 0.3rem;
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1.7142857143;
+  letter-spacing: 0.014rem;
+  color: #ffffff;
+  font-family: Montserrat, 'Source Sans Pro';
+  white-space: nowrap;
+}
+.item--M9e .frame-3851-uD6 .frame-830-Msi .text-field-foA {
+  box-sizing: border-box;
+  padding: 1.3rem 2rem;
+  width: 100%;
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1.7142857143;
+  letter-spacing: 0.014rem;
+  color: #828282;
+  font-family: Montserrat, 'Source Sans Pro';
+  white-space: nowrap;
+  border: solid 0.1rem #e0e0e0;
+  flex-shrink: 0;
+}
+.item--M9e .frame-3851-uD6 .frame-830-Msi .button-tvp {
+  width: 100%;
+  height: 5rem;
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.2175;
+  text-transform: uppercase;
+  color: #ffffff;
+  font-family: Montserrat, 'Source Sans Pro';
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #5491f5;
+  flex-shrink: 0;
+}
+
+.button-tvp:hover{
+  background-color: #50bcdf;
+}
+
+.input-field {
+  width: 200px; /* 원하는 너비로 조절 */
+  height: 20px; /* 원하는 높이로 조절 */
+  
+}

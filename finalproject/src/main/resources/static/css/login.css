@@ -1,0 +1,165 @@
+
+html {
+	font-size:62.5%;
+}
+* {
+	margin: 0;
+	padding: 0;
+}
+ul, li {
+	list-style: none;
+}
+input {
+	border: none;
+}
+body {
+  width: 144rem;
+}.item--brL {
+  box-sizing: border-box;
+  padding: 15.7rem 44.7rem 18.3rem 44.8rem;
+  width: 100%;
+  height: 80rem;
+  overflow: hidden;
+  position: relative;
+  background-color: #ffffff;
+  border-radius: 3rem;
+}
+.item--brL .frame-3851-Fvt {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.item--brL .frame-3851-Fvt .frame-3851-nfv {
+  margin-bottom: 4rem;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+.item--brL .frame-3851-Fvt .frame-3851-nfv .roads-dgY {
+  margin-bottom: 2rem;
+  font-size: 5.4rem;
+  font-weight: 700;
+  line-height: 1.2175;
+  color: #000000;
+  font-family: Montserrat, 'Source Sans Pro';
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.item--brL .frame-3851-Fvt .frame-3851-nfv .road-obstacle-ai-detection-service-75v {
+  font-size: 1.4rem;
+  font-weight: 600;
+  line-height: 1.7142857143;
+  letter-spacing: 0.014rem;
+  color: #000000;
+  font-family: Montserrat, 'Source Sans Pro';
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.item--brL .frame-3851-Fvt .frame-830-aVJ {
+  width: 100%;
+  row-gap: 2rem;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+.item--brL .frame-3851-Fvt .frame-830-aVJ .text-field-sjJ {
+  box-sizing: border-box;
+  padding: 1.3rem 2rem;
+  width: 100%;
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1.7142857143;
+  letter-spacing: 0.014rem;
+  color: #828282;
+  font-family: Montserrat, 'Source Sans Pro';
+  white-space: nowrap;
+  display: flex;
+  align-items: baseline;
+  border: solid 0.1rem #e0e0e0;
+  flex-shrink: 0;
+}
+.item--brL .frame-3851-Fvt .frame-830-aVJ .text-field-sjJ .text-field-sjJ-sub-0 {
+}
+.item--brL .frame-3851-Fvt .frame-830-aVJ .text-field-sjJ .text-field-sjJ-sub-1 {
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1.7142857143;
+  letter-spacing: 0.014rem;
+  color: #828282;
+  font-family: Montserrat, 'Source Sans Pro';
+}
+.item--brL .frame-3851-Fvt .frame-830-aVJ .text-field-Lep {
+  box-sizing: border-box;
+  padding: 1.3rem 2rem;
+  width: 100%;
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1.7142857143;
+  letter-spacing: 0.014rem;
+  color: #828282;
+  font-family: Montserrat, 'Source Sans Pro';
+  white-space: nowrap;
+  border: solid 0.1rem #e0e0e0;
+  flex-shrink: 0;
+}
+.item--brL .frame-3851-Fvt .frame-830-aVJ .text-field-7oz {
+  box-sizing: border-box;
+  padding: 0.3rem 2.9rem 0.3rem 44.9rem;
+  width: 100%;
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1.7142857143;
+  letter-spacing: 0.014rem;
+  color: #828282;
+  font-family: Montserrat, 'Source Sans Pro';
+  white-space: nowrap;
+  border: solid 0.1rem #ffffff;
+  flex-shrink: 0;
+  cursor:pointer; /*커서를 올렸을 때, 마우스가 포인터로 변환된다.*/
+}
+.item--brL .frame-3851-Fvt .frame-830-aVJ .button-w2L {
+  width: 100%;
+  height: 5rem;
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.2175;
+  text-transform: uppercase;
+  color: #ffffff;
+  font-family: Montserrat, 'Source Sans Pro';
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #5491f5;
+  flex-shrink: 0;
+  cursor:pointer;
+}
+.item--brL .frame-3851-Fvt .frame-830-aVJ .button-jTz {
+  width: 100%;
+  height: 5rem;
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.2175;
+  text-transform: uppercase;
+  color: #ffffff;
+  font-family: Montserrat, 'Source Sans Pro';
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #5491f5;
+  flex-shrink: 0;
+  cursor:pointer;
+  
+}
+
+.button-jTz:hover{
+  background-color: #50bcdf;
+  
+}
+
+.button-w2L:hover{
+  background-color: #50bcdf;
+}

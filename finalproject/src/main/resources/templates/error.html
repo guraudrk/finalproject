@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error</title>
+</head>
+<body>
+    <div th:fragment="content" class="container">
+        <h2>Error Page</h2>
+        <p th:text="${error}" class="error-message"></p>
+        <p>Sorry, an error occurred. Please try again later.</p>
+    </div>
+</body>
+</html>

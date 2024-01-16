@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "FinalprojectApplication",
+            "request": "launch",
+            "mainClass": "com.FinalprojectApplication",
+            "projectName": "finalproject"
+        },
+        {
+            "type": "java",
+            "name": "FinalprojectApplication",
+            "request": "launch",
+            "mainClass": "com.example.finalproject.finalproject.FinalprojectApplication",
+            "projectName": "finalproject"
+        }
+    ]
+}
