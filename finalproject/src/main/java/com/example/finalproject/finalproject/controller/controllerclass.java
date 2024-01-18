@@ -19,7 +19,7 @@ public class controllerclass {
         return "main";
     }
 
-    @GetMapping("/officer") // 지자체 페이지로 이동하는 컨트롤러.
+    @GetMapping("/goofficer") // 지자체 페이지로 이동하는 컨트롤러.
     public String goOfficer() {
         return "goofficer";
     }
