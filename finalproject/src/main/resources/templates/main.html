@@ -7,18 +7,16 @@
     <meta name="theme-color" content="#000000" />
     <title>메인 화면</title>
     <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=0db590807cb08a226ef449271cc2660f"></script>
-    <script src="/static/js/main.js"></script>
+    
     <link th:href="@{/static/css/main.css}" rel="stylesheet"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat%3A400%2C600%2C700"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro%3A400%2C600%2C700"/>
 </head>
 <body>
-    <div class="main-container">
-        <div class="icon-container">ROADs</div>
-        <div class="login-button">로그인</div>
-    </div>
+    <div class="icon-container">ROADs</div>
+    <div class="login-button">로그인</div>
+    <video id="webcam" width="320" height="240"></video>
     <div id="map" style="width: 100%; height: 100vh;"></div>
-    
-    
+    <script src="/static/js/main.js"></script>
 </body>
 </html>
