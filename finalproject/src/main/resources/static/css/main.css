@@ -25,6 +25,7 @@ body {
 }
 
 .login-button {
+  margin-bottom: 10px;
   background-color: #ffffff;
   font-family: 'Poppins', 'Source Sans Pro';
   border: 2px solid #000;
@@ -36,6 +37,26 @@ body {
   top: 0;
   right: 0;
   margin: 20px;
+  z-index: 100;
+}
+
+.my-location-button {
+  
+  
+  background-color: #ffffff;
+  font-family: 'Poppins', 'Source Sans Pro';
+  border: 2px solid #000;
+  padding: 10px;
+   font-weight: bold;
+  font-size: 18px;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  margin-top: 100px;
+  margin-bottom: 10px;
+  margin-right:20px;
   z-index: 100;
 }
 
@@ -56,3 +77,68 @@ body {
   top: 0;
   left: 0;
 }
+
+
+
+
+.popup {
+  position: fixed;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 20px;
+  z-index: 1000;
+  /* 높이와 너비 2배로 늘리기 */
+  height: 600px;
+  width: 480px;
+  
+  /* 팝업을 화면 가운데에 정렬하기 위한 스타일 */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  /* 추가된 스타일 */
+  box-sizing: border-box; /* 패딩과 테두리를 포함한 전체 크기를 지정 */
+  margin-bottom: 10px; /* 하단 여백 없애기 */
+}
+
+.popup img {
+  /* 사진 크기 조정 */
+  width: 100%;
+  height: auto;
+}
+.popup-content {
+  flex: 1; /* 팝업 내용이 자동으로 확장되도록 함 */
+  margin-bottom: 20px;
+}
+
+.popup-content img {
+  margin-bottom: 40px;
+}
+
+.popup-content p {
+  margin-bottom: 20px;
+}
+
+.popup-close-btn {
+  margin-top: 40px;
+}
+
+.popup-close-btn {
+ 
+  width: 100%;
+  height: 20px; /* 원하는 높이로 조절 */
+  background-color: gray;
+  color: white;
+  border: none;
+
+  text-align: center;
+  text-decoration: none;
+  display: flex;
+  justify-content: center; /* 수평 가운데 정렬 */
+  align-items: center; /* 수직 가운데 정렬 */
+  font-size: 16px;
+  cursor: pointer;
+  
+
+}
+
