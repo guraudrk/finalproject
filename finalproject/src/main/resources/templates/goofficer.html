@@ -28,13 +28,13 @@
         <div id="address-filter">
             <label for="address1">주소1:</label>
             <select id="address1" onchange="updateAddress2Options()">
-                <option value="서울특별시">서울특별시</option>
-                <option value="인천광역시">인천광역시</option>
-                <option value="대전광역시">대전광역시</option>
-                <option value="광주광역시">광주광역시</option>
-                <option value="대구광역시">대구광역시</option>
-                <option value="울산광역시">울산광역시</option>
-                <option value="부산광역시">부산광역시</option>
+                <option value="서울">서울</option>
+                <option value="인천">인천</option>
+                <option value="대전">대전</option>
+                <option value="광주">광주</option>
+                <option value="대구">대구</option>
+                <option value="울산">울산</option>
+                <option value="부산">부산</option>
                 <option value="경기도">경기도</option>
                 <option value="강원도">강원도</option>
                 <option value="충청북도">충청북도</option>
@@ -52,6 +52,7 @@
             
         </div>
     
+        <button id="clear-markers-button">마커 지우기</button>
         <button id="apply-button" onclick="applyFilter()">확인</button>
     </div>
     <div id="map" style="width: 100%; height: 100vh;"></div>

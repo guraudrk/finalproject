@@ -1,6 +1,12 @@
 document.addEventListener('DOMContentLoaded', function () {
   
 
+  
+
+  document.getElementById("clear-markers-button").addEventListener("click", function () {
+    clearMarkers(); // 마커를 모두 지우는 함수 호출
+});
+
     /*
     기본적으로, 이 부분의 js와 main.js의 js 코드는 유사하다.
     하지만, 아래의 부분들이 main.js와 다르다.
@@ -10,9 +16,39 @@ document.addEventListener('DOMContentLoaded', function () {
     */ 
 
 
+
+    // 날짜 형식이 유효한지 확인하는 함수
+function isValidDate(dateString) {
+  const regex = /^\d{4}-\d{2}-\d{2}$/;
+  return dateString.match(regex) !== null;
+}
+
+// 주소 형식이 유효한지 확인하는 함수
+function isValidAddress(address) {
+  // 주소에 대한 유효성 검사 로직을 추가할 수 있습니다.
+  // 예를 들어, 최소 길이, 특수 문자 제한 등을 검사할 수 있습니다.
+  // 이 예시에서는 간단하게 길이만 확인하고 있습니다.
+  return address.length > 0;
+}
+
+
+    // 전역 변수로 마커를 저장하는 배열
+  var markers = [];
+
     // 전역 변수로 내 위치 마커를 저장하기 위한 변수 선언
     var myLocationMarker;
     
+
+    // 마커를 클리어하는 함수
+function clearMarkers() {
+  // 전역 변수로 선언된 markers 배열에 있는 모든 마커를 지웁니다.
+  markers.forEach(function (marker) {
+      marker.setMap(null);
+  });
+
+  // markers 배열 비우기
+  markers = [];
+}
 
 
     //좌측 탭- '주소1' 선택 드롭다운 엘리먼트에 대한 이벤트 리스너 추가
@@ -36,6 +72,122 @@ document.addEventListener('DOMContentLoaded', function () {
         window.location.href = '/detail';
       });
   
+
+      //버튼을 1번 이상 누를 때, 오류를 방지하기 위해 이 함수를 가장 위로 보낸다.
+      //함수를 정의하기 전에 호출하려고 시도하면 오류가 나기 때문이다.
+      // '확인' 버튼을 누르면 필터를 적용하고 마커를 표시하는 함수
+  async function applyFilter() {
+
+    // 0. 이미 마커가 있다면 다 지운다.
+    clearMarkers();
+
+    // 1. DTO에서 데이터를 가져온다.
+    const response = await fetch('/api/getMarkers');
+    const data = await response.json();
+
+    // 2. goofficer.html에서 입력된 값들을 가져온다.
+    const startDate = document.getElementById("start-date").value;
+    const endDate = document.getElementById("end-date").value;
+    const address1 = document.getElementById("address1").value;
+    const address2 = document.getElementById("address2").value;
+
+    // 유효성 검사
+  if (!isValidDate(startDate)) {
+    alert("올바른 시작 날짜 형식이 아닙니다.");
+    return;
+  }
+
+  if (!isValidDate(endDate)) {
+    alert("올바른 종료 날짜 형식이 아닙니다.");
+    return;
+  }
+
+  if (!isValidAddress(address1)) {
+    alert("올바른 주소1 형식이 아닙니다.");
+    return;
+  }
+
+  if (!isValidAddress(address2)) {
+    alert("올바른 주소2 형식이 아닙니다.");
+    return;
+  }
+
+
+
+    // 3. 페이지 로드 시에는 마커를 초기화하지 않음.
+    // 페이지 로드 시에는 마커를 초기화하지 않음
+    if (!applyFilter.initialized) {
+      applyFilter.initialized = true; // 초기화 상태로 변경
+    } else {
+      // 페이지 로드 이후 '확인' 버튼을 눌렀을 때는 기존 마커를 제거
+      clearMarkers();
+    }
+
+
+    
+
+   // 4. creation_date의 값이 시작날짜/종료날짜 사이에 있는 것과,
+//    위도와 경도를 주소로 변환한 구문 중에 주소1/주소2가 있는지 확인한다.
+// 필터링된 데이터를 담을 배열을 초기화한다.
+const filteredData = [];
+
+// 주어진 데이터 배열을 순회하면서 필터링 수행
+//for 문으로 해야 필터링이 모든 데이터에 적용이 된다.
+for (const item of data) {
+  // 비동기적으로 주소를 가져오기 위해 Promise를 사용
+  const address = await convertLatLngToAddress(item.lat, item.lng);
+  
+  const creationDate = new Date(item.creationTime);
+  const isDateValid = creationDate >= new Date(startDate) && creationDate <= new Date(endDate);
+  const isAddressValid = address.includes(address1) && address.includes(address2);
+
+  if (isDateValid && isAddressValid) {
+    // 날짜 및 주소가 유효한 경우에만 배열에 추가
+    filteredData.push(item);
+  }
+
+  // 로그 출력
+  console.log('Creation Date:', creationDate);
+  console.log('Address:', address);
+  console.log('주소1:', address1);
+  console.log('주소2:', address2);
+  console.log('시작날짜:', new Date(startDate));
+  console.log('종료날짜:', new Date(endDate));
+}
+
+// 최종 필터링된 데이터 출력
+console.log('Filtered Data:', filteredData);
+
+    // 5. 카카오맵을 통해, 좌표가 나타난 공간으로 지도를 이동한다.
+    if (filteredData.length > 0) {
+      const centerLat = filteredData[0].lat;
+      const centerLng = filteredData[0].lng;
+      map.setCenter(new kakao.maps.LatLng(centerLat, centerLng));
+    }
+
+    // 6. 확인 버튼을 다시 누르면, 3,4가 다시 동작한다.
+    filteredData.forEach(item => {
+      // 마커 생성 및 지도에 추가
+      const marker = new kakao.maps.Marker({
+        position: new kakao.maps.LatLng(item.lat, item.lng),
+        map: map,
+      });
+
+      // 마커 클릭 시 팝업창 열기
+      kakao.maps.event.addListener(marker, 'click', function () {
+        openPopup(item);
+      });
+
+      // 생성된 마커를 전역 배열에 저장
+      markers.push(marker);
+    });
+  }
+
+  // '확인' 버튼에 이벤트 리스너 등록
+  document.getElementById("apply-button").addEventListener("click", applyFilter);
+
+
+
     // 팝업창 닫기 함수
     function closePopup() {
       var popup = document.querySelector('.popup');
@@ -52,10 +204,12 @@ document.addEventListener('DOMContentLoaded', function () {
       var popupContent = `
         <div class="popup-content">
           <img src="${markerData.photoInfo}" width="100" height="250">
-          <p><b>도로명주소:</b> ${address}</p>
+          <p><b>검출날짜:</b> ${markerData.creationTime}</p>
+          <p><b>위치(도로명주소):</b> ${address}</p>
           <p><b>카테고리명:</b> ${markerData.categoryId}</p>
+          <p><b>보수상태:</b> ${markerData.maintenance}</p>
         </div>
-        <div class="popup-close-btn">확인</div>
+        <div class="popup-close-btn">수정</div>
       `;
   
       //새로운 div 엘리먼트를 생성한다.
@@ -147,7 +301,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var map = new kakao.maps.Map(container, options);
   
     
-  
+  /* goofficer는 처음에 마커를 보여주지 않고, 조건애 맞는 마커만 보여준다.
     // 디비에서 정보를 가져와서 지도에 마커로 표시해주는 코드
     kakao.maps.load(async () => {
       try {
@@ -171,6 +325,7 @@ document.addEventListener('DOMContentLoaded', function () {
         console.error('Error fetching data:', error);
       }
     });
+    */
   
     // 내 위치 버튼을 눌렀을 때 지도를 내 위치로 이동
     document.querySelector('.my-location-button').addEventListener('click', function () {
@@ -203,13 +358,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
   //주소1에 따라 주소 2의 option이 변하는 코드.
   var address2Options = {
-    '서울특별시': ["강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구", "노원구", "도봉구", "동대문구", "동작구", "마포구", "서대문구", "서초구", "성동구", "성북구", "송파구", "양천구", "영등포구", "용산구", "은평구", "종로구", "중구", "중랑구"],
-    '인천광역시': ["계양구", "남구", "남동구", "동구", "부평구", "서구", "연수구", "중구", "강화군", "옹진군"],
-    '대전광역시': ["대덕구", "동구", "서구", "유성구", "중구"],
-    '광주광역시': ["광산구", "남구", "동구", "북구", "서구"],
-    '대구광역시': ["남구", "달서구", "동구", "북구", "서구", "수성구", "중구", "달성군"],
-    '울산광역시': ["남구", "동구", "북구", "중구", "울주군"],
-    '부산광역시': ["강서구", "금정구", "남구", "동구", "동래구", "부산진구", "북구", "사상구", "사하구", "서구", "수영구", "연제구", "영도구", "중구", "해운대구", "기장군"],
+    '서울': ["강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구", "노원구", "도봉구", "동대문구", "동작구", "마포구", "서대문구", "서초구", "성동구", "성북구", "송파구", "양천구", "영등포구", "용산구", "은평구", "종로구", "중구", "중랑구"],
+    '인천': ["계양구", "남구", "남동구", "동구", "부평구", "서구", "연수구", "중구", "강화군", "옹진군"],
+    '대전': ["대덕구", "동구", "서구", "유성구", "중구"],
+    '광주': ["광산구", "남구", "동구", "북구", "서구"],
+    '대구': ["남구", "달서구", "동구", "북구", "서구", "수성구", "중구", "달성군"],
+    '울산': ["남구", "동구", "북구", "중구", "울주군"],
+    '부산': ["강서구", "금정구", "남구", "동구", "동래구", "부산진구", "북구", "사상구", "사하구", "서구", "수영구", "연제구", "영도구", "중구", "해운대구", "기장군"],
     '경기도': ["고양시", "과천시", "광명시", "광주시", "구리시", "군포시", "김포시", "남양주시", "동두천시", "부천시", "성남시", "수원시", "시흥시", "안산시", "안성시", "안양시", "양주시", "오산시", "용인시", "의왕시", "의정부시", "이천시", "파주시", "평택시", "포천시", "하남시", "화성시", "가평군", "양평군", "여주군", "연천군"],
     '강원도': ["강릉시", "동해시", "삼척시", "속초시", "원주시", "춘천시", "태백시", "고성군", "양구군", "양양군", "영월군", "인제군", "정선군", "철원군", "평창군", "홍천군", "화천군", "횡성군"],
     '충청북도': ["제천시", "청주시", "충주시", "괴산군", "단양군", "보은군", "영동군", "옥천군", "음성군", "증평군", "진천군", "청원군"],

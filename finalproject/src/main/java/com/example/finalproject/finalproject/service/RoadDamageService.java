@@ -25,16 +25,23 @@ public class RoadDamageService {
                 .collect(Collectors.toList());
     }
 
+    // 데이터들을 디비에서 가져오는 쿼리문(모든 table 포함.)
     private RoadDamageDto convertToDTO(RoadDamageEntity roadDamage) {
         if (roadDamage == null) {
             throw new IllegalArgumentException("RoadDamage 객체가 null입니다.");
         }
 
+        // 데이터들을 디비에서 가져온다.
         RoadDamageDto dto = new RoadDamageDto();
         dto.setPhotoInfo(roadDamage.getPhotoInfo());
         dto.setLat(roadDamage.getLat());
         dto.setLng(roadDamage.getLng());
         dto.setCategoryId(roadDamage.getCategoryId());
+        dto.setCreationTime(roadDamage.getCreationTime());
+        dto.setCompletionTime(roadDamage.getCompletionTime());
+        dto.setContactPersonId(roadDamage.getContactPersonId());
+        dto.setLocation(roadDamage.getLocation());
+        dto.setMaintenance(roadDamage.getMaintenance());
         return dto;
     }
 }
