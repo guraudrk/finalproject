@@ -33,7 +33,7 @@ public class memberservice {
      * 
      * 4.컨트롤러에서는 dto의 형태로 데이터를 받아 서비스에 전달한다.
      * 5.서비스에서는 컨트롤러에서 받은 DTO를 Entity로 변환하고, 필요한 작업을 수행한 뒤에 Repository에 Entity를
-     * 전달한다. 
+     * 전달한다.
      * 
      */
 
@@ -68,7 +68,7 @@ public class memberservice {
 
         // 1.회원이 입력한 아이디로 db에서 조회를 한다.
         // Optional은 memberentity를 한번 더 감싸는 개념이다.
-        Optional<MemberEntity> findById = memberRepository.findById(memberDTO.getId());
+        Optional<MemberEntity> findById = memberRepository.findById(memberDTO.getMemberId());
 
         // 조회 결과가 있다면
         if (findById.isPresent()) {
@@ -141,7 +141,6 @@ public class memberservice {
 
     }
 
-    
     public MemberEntity getPasswordByEmail(String memberEmail) {
         Optional<MemberEntity> byMemberEmail = memberRepository.findByEmail(memberEmail);
         return byMemberEmail.orElse(null);

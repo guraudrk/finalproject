@@ -15,16 +15,16 @@ import lombok.ToString;
 public class memberDTO {
 
     // 회원가입을 위한 변수들을 정의한다.
-    private Long id;
+    private String member_id; // 변수명 수정
     private String email;
     private String password;
 
-    public Long getId() {
-        return id;
+    public String getMemberId() { // 메소드명 수정
+        return member_id; // 변수명 수정
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setMemberId(String member_id) { // 메소드명 수정
+        this.member_id = member_id; // 변수명 수정
     }
 
     public String getEmail() {
@@ -47,10 +47,9 @@ public class memberDTO {
     // 이렇게 변환을 해야 더 효율적으로 쓸 수 있다.
     public static memberDTO toMemberDTO(MemberEntity memberEntity) {
         memberDTO memberDTO = new memberDTO();
-        memberDTO.setId(memberEntity.getId());
+        memberDTO.setMemberId(memberEntity.getMemberId());
         memberDTO.setEmail(memberEntity.getEmail());
         memberDTO.setPassword(memberEntity.getPassword());
         return memberDTO;
-
     }
 }
