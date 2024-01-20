@@ -1,15 +1,14 @@
 package com.example.finalproject.finalproject.dto;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 public class RoadDamageDto {
 
-    private Long id;
-    private String contactPersonId;
+    private Integer id;
+    private String memberId;
     private String categoryId;
-    private Date creationTime;
-    private Date completionTime;
-    private String location;
+    private Timestamp creationTime;
+    private Timestamp completionTime;
     private String photoInfo;
     private String maintenance;
     private double lat;
@@ -17,20 +16,20 @@ public class RoadDamageDto {
 
     // Constructors, getters, setters
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getContactPersonId() {
-        return contactPersonId;
+    public String getMemberId() {
+        return memberId;
     }
 
-    public void setContactPersonId(String contactPersonId) {
-        this.contactPersonId = contactPersonId;
+    public void setMemberId(String memberId) {
+        this.memberId = memberId;
     }
 
     public String getCategoryId() {
@@ -41,28 +40,20 @@ public class RoadDamageDto {
         this.categoryId = categoryId;
     }
 
-    public Date getCreationTime() {
+    public Timestamp getCreationTime() {
         return creationTime;
     }
 
-    public void setCreationTime(Date creationTime) {
+    public void setCreationTime(Timestamp creationTime) {
         this.creationTime = creationTime;
     }
 
-    public Date getCompletionTime() {
+    public Timestamp getCompletionTime() {
         return completionTime;
     }
 
-    public void setCompletionTime(Date completionTime) {
+    public void setCompletionTime(Timestamp completionTime) {
         this.completionTime = completionTime;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
     }
 
     public String getPhotoInfo() {

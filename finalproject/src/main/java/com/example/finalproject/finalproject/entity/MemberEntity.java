@@ -15,16 +15,25 @@ public class MemberEntity {
     // Table이라는 어노테이션은 데이터베이스에 해당 이름의 테이블이 자동으로 생기도록 해준다.
     // 이 엔티티 클래스가 테이블의 역활을 한다.
 
-    @Id // pk 지정
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // 자동 증가
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "member_id")
     private Long id;
 
-    // 실제로 사용자가 적었던 id
-    @Column(unique = true) // unique 제약조건 추가
+    @Column(name = "email", unique = true)
     private String email;
 
-    @Column
+    @Column(name = "member_pw")
     private String password;
+
+    public MemberEntity() {
+        // 기본 생성자
+    }
+
+    public MemberEntity(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
 
     public Long getId() {
         return id;
@@ -50,10 +59,9 @@ public class MemberEntity {
         this.password = password;
     }
 
-    // dto을 entity로 변동해준다.
+    // memberDTO를 MemberEntity로 변환하는 메소드
     public static MemberEntity toMemberEntity(memberDTO memberDTO) {
         MemberEntity memberEntity = new MemberEntity();
-        memberEntity.setId(memberDTO.getId());
         memberEntity.setEmail(memberDTO.getEmail());
         memberEntity.setPassword(memberDTO.getPassword());
 

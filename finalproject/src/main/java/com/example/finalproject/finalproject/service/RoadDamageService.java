@@ -39,8 +39,7 @@ public class RoadDamageService {
         dto.setCategoryId(roadDamage.getCategoryId());
         dto.setCreationTime(roadDamage.getCreationTime());
         dto.setCompletionTime(roadDamage.getCompletionTime());
-        dto.setContactPersonId(roadDamage.getContactPersonId());
-        dto.setLocation(roadDamage.getLocation());
+        dto.setMemberId(roadDamage.getMemberId());
         dto.setMaintenance(roadDamage.getMaintenance());
         return dto;
     }

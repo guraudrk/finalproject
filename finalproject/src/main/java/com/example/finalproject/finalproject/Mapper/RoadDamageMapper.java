@@ -7,11 +7,10 @@ public class RoadDamageMapper {
     public static RoadDamageDto toDto(RoadDamageEntity entity) {
         RoadDamageDto dto = new RoadDamageDto();
         dto.setId(entity.getId());
-        dto.setContactPersonId(entity.getContactPersonId());
+        dto.setMemberId(entity.getMemberId());
         dto.setCategoryId(entity.getCategoryId());
         dto.setCreationTime(entity.getCreationTime());
         dto.setCompletionTime(entity.getCompletionTime());
-        dto.setLocation(entity.getLocation());
         dto.setPhotoInfo(entity.getPhotoInfo());
         dto.setMaintenance(entity.getMaintenance());
         dto.setLat(entity.getLat());
@@ -22,11 +21,10 @@ public class RoadDamageMapper {
     public static RoadDamageEntity toEntity(RoadDamageDto dto) {
         RoadDamageEntity entity = new RoadDamageEntity();
         entity.setId(dto.getId());
-        entity.setContactPersonId(dto.getContactPersonId());
+        entity.setMemberId(dto.getMemberId());
         entity.setCategoryId(dto.getCategoryId());
         entity.setCreationTime(dto.getCreationTime());
         entity.setCompletionTime(dto.getCompletionTime());
-        entity.setLocation(dto.getLocation());
         entity.setPhotoInfo(dto.getPhotoInfo());
         entity.setMaintenance(dto.getMaintenance());
         entity.setLat(dto.getLat());

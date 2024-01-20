@@ -1,19 +1,19 @@
 package com.example.finalproject.finalproject.entity;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-@Data
 @Entity
 @Getter
 @Setter
@@ -22,49 +22,51 @@ public class RoadDamageEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "facility_id")
+    private Integer id;
 
-    @Column(name = "contact_person_id")
-    private String contactPersonId;
+    @Column(name = "member_id")
+    private String memberId;
 
     @Column(name = "category_id")
     private String categoryId;
 
     @Column(name = "creation_time")
-    private Date creationTime;
+    private Timestamp creationTime;
 
     @Column(name = "completion_time")
-    private Date completionTime;
-
-    @Column
-    private String location;
+    private Timestamp completionTime;
 
     @Column(name = "photo_info")
     private String photoInfo;
 
-    @Column
+    @Column(name = "maintenance")
     private String maintenance;
 
-    @Column(name = "lat")
+    @Column(name = "latitude")
     private double lat;
 
-    @Column(name = "lng")
+    @Column(name = "longitude")
     private double lng;
 
-    public void setId(Long id) {
+    @ManyToOne
+    @JoinColumn(name = "member_id", referencedColumnName = "member_id", insertable = false, updatable = false)
+    private MemberEntity memberEntity;
+
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public String getContactPersonId() {
-        return contactPersonId;
+    public String getMemberId() {
+        return memberId;
     }
 
-    public void setContactPersonId(String contactPersonId) {
-        this.contactPersonId = contactPersonId;
+    public void setMemberId(String memberId) {
+        this.memberId = memberId;
     }
 
     public String getCategoryId() {
@@ -75,28 +77,20 @@ public class RoadDamageEntity {
         this.categoryId = categoryId;
     }
 
-    public Date getCreationTime() {
+    public Timestamp getCreationTime() {
         return creationTime;
     }
 
-    public void setCreationTime(Date creationTime) {
+    public void setCreationTime(Timestamp creationTime) {
         this.creationTime = creationTime;
     }
 
-    public Date getCompletionTime() {
+    public Timestamp getCompletionTime() {
         return completionTime;
     }
 
-    public void setCompletionTime(Date completionTime) {
+    public void setCompletionTime(Timestamp completionTime) {
         this.completionTime = completionTime;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
     }
 
     public String getPhotoInfo() {
@@ -129,5 +123,13 @@ public class RoadDamageEntity {
 
     public void setLng(double lng) {
         this.lng = lng;
+    }
+
+    public MemberEntity getMemberEntity() {
+        return memberEntity;
+    }
+
+    public void setMemberEntity(MemberEntity memberEntity) {
+        this.memberEntity = memberEntity;
     }
 }
