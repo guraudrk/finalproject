@@ -1,7 +1,13 @@
 document.addEventListener('DOMContentLoaded', function () {
   
 
-  
+    // 카카오맵 api를 띄우는 코드
+    var container = document.getElementById('map');
+    var options = {
+      center: new kakao.maps.LatLng(37.570013917406, 126.9780542555),
+      level: 3
+    };
+    var map = new kakao.maps.Map(container, options);
 
   document.getElementById("clear-markers-button").addEventListener("click", function () {
     clearMarkers(); // 마커를 모두 지우는 함수 호출
@@ -50,6 +56,21 @@ function clearMarkers() {
   markers = [];
 }
 
+// 주소1에 따라 주소2 옵션 동적으로 변경
+function updateAddress2Options() {
+  var address1 = document.getElementById("address1").value;
+  var address2Select = document.getElementById("address2");
+
+  // 주소2 옵션 초기화
+  address2Select.innerHTML = "<option value=''>시/군/구 선택</option>";
+
+  // 주소1에 따라 주소2 옵션 설정
+  if (address2Options.hasOwnProperty(address1)) {
+      addOptions(address2Select, address2Options[address1]);
+  }
+
+ 
+}
 
     //좌측 탭- '주소1' 선택 드롭다운 엘리먼트에 대한 이벤트 리스너 추가
     var address1Select = document.getElementById("address1");
@@ -71,7 +92,40 @@ function clearMarkers() {
     document.querySelector('#data-details-button').addEventListener('click', function () {
         window.location.href = '/detail';
       });
+  // '확인' 버튼에 이벤트 리스너 등록
+  document.getElementById("apply-button").addEventListener("click",  function () {
+   
+     applyFilter();
+  });
+
+    // 내 위치 버튼을 눌렀을 때 지도를 내 위치로 이동
+    document.querySelector('.my-location-button').addEventListener('click', function () {
+      navigator.geolocation.getCurrentPosition(function (position) {
+        var lat = position.coords.latitude;
+        var lng = position.coords.longitude;
   
+        map.setCenter(new kakao.maps.LatLng(lat, lng));
+         // 기존에 있던 내 위치 마커를 제거
+         if (myLocationMarker) {
+          myLocationMarker.setMap(null);
+        }
+   // 내 위치 마커 이미지 정의
+   var myLocationImage = new kakao.maps.MarkerImage(
+    'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png', // 빨간색 마커 이미지 URL
+    new kakao.maps.Size(30, 30), // 마커 이미지 크기
+    { offset: new kakao.maps.Point(15, 15) } // 마커 이미지 좌표 설정 (가운데 정렬을 위해)
+  );
+  //console.log("결과2:",myLocationImage);
+        // 내 위치 마커 생성 및 지도에 추가
+        myLocationMarker = new kakao.maps.Marker({
+          position: new kakao.maps.LatLng(lat, lng),
+          map: map,
+          image: myLocationImage, // 내 위치 마커 이미지 설정
+        });
+      }, function (error) {
+        console.error('Error getting current location:', error);
+      });
+    });
 
       //버튼을 1번 이상 누를 때, 오류를 방지하기 위해 이 함수를 가장 위로 보낸다.
       //함수를 정의하기 전에 호출하려고 시도하면 오류가 나기 때문이다.
@@ -167,10 +221,142 @@ console.log('Filtered Data:', filteredData);
 
     // 6. 확인 버튼을 다시 누르면, 3,4가 다시 동작한다.
     filteredData.forEach(item => {
+//지난 날짜, categoryId에 따라 마커가 바뀌는 함수.
+function getMarkerImage(creationTime, categoryId1){
+  const categoryId  = String(categoryId1);
+  console.log(categoryId);
+  const currentDate = new Date();
+  const markerDate = new Date(creationTime);
+  console.log(currentDate - markerDate);
+  // 생성 날짜가 최근 7일 이내인지 확인(파란색)
+  if ((currentDate - markerDate) < (7 * 24 * 60 * 60 * 1000)) {
+    // 카테고리 ID에 따라 마커 이미지를 결정
+    if (categoryId.includes('PE드럼')) {
+      return '../images/drum_blue.jpg'; // 프로젝트 구조에 맞게 실제 파일 경로를 수정하세요.
+    } else if(categoryId.includes('PE방호벽')){
+      return '../images/firewall_blue.jpg'
+    }
+    else if(categoryId.includes('PE안내봉')){
+      return '../images/guiderod_blue.jpg'
+    }
+    else if(categoryId.includes('라바콘')){
+      return '../images/con_blue.jpg'
+    }
+    else if(categoryId.includes('시선유도봉')){
+      return '../images/gazeguideroad_blue.jpg'
+    }
+    else if(categoryId.includes('PE휀스')){
+      return '../images/fence_blue.jpg'
+    }
+    else if(categoryId.includes('PE입간판')){
+      return '../images/signboard_blue.jpg'
+    }
+    else if(categoryId.includes('제설함')){
+      return '../images/snowremovalbox_blue.jpg'
+    }
+    else if(categoryId.includes('박스')){
+      return '../images/box_blue.jpg'
+    }
+    else if(categoryId.includes('낙석')){
+      return '../images/fallingrock_blue.jpg'
+    }
+    else if(categoryId.includes('포트홀')){
+      return '../images/pothole_blue.jpg'
+    }
+  } 
+
+  //생성날짜가 7일 이상-1달 이내인지 확인(마커의 색은 노란색)
+  else if ((currentDate - markerDate) < (30 * 24 * 60 * 60 * 1000)) {
+// 카테고리 ID에 따라 마커 이미지를 결정
+if (categoryId.includes('PE드럼')) {
+return '../images/drum_yellow.jpg'; // 프로젝트 구조에 맞게 실제 파일 경로를 수정하세요.
+} else if(categoryId.includes('PE방호벽')){
+return '../images/firewall_yellow.jpg'
+}
+else if(categoryId.includes('PE안내봉')){
+return '../images/guiderod_yellow.jpg'
+}
+else if(categoryId.includes('라바콘')){
+return '../images/con_yellow.jpg'
+}
+else if(categoryId.includes('시선유도봉')){
+return '../images/gazeguideroad_yellow.jpg'
+}
+else if(categoryId.includes('PE휀스')){
+return '../images/fence_yellow.jpg'
+}
+else if(categoryId.includes('PE입간판')){
+return '../images/signboard_yellow.jpg'
+}
+else if(categoryId.includes('제설함')){
+return '../images/snowremovalbox_yellow.jpg'
+}
+else if(categoryId.includes('박스')){
+return '../images/box_yellow.jpg'
+}
+else if(categoryId.includes('낙석')){
+return '../images/fallingrock_yellow.jpg'
+}
+else if(categoryId.includes('포트홀')){
+return '../images/pothole_yellow.jpg'
+}
+} 
+
+   //생성날짜가 1달 이상인지(마커의 색은 빨간색)
+  else{
+// 카테고리 ID에 따라 마커 이미지를 결정
+if (categoryId.includes('PE드럼')) {
+return '../images/drum_red.jpg'; // 프로젝트 구조에 맞게 실제 파일 경로를 수정하세요.
+} else if(categoryId.includes('PE방호벽')){
+return '../images/firewall_red.jpg'
+}
+else if(categoryId.includes('PE안내봉')){
+return '../images/guiderod_red.jpg'
+}
+else if(categoryId.includes('라바콘')){
+return '../images/con_red.jpg'
+}
+else if(categoryId.includes('시선유도봉')){
+return '../images/gazeguideroad_red.jpg'
+}
+else if(categoryId.includes('PE휀스')){
+return '../images/fence_red.jpg'
+}
+else if(categoryId.includes('PE입간판')){
+return '../images/signboard_red.jpg'
+}
+else if(categoryId.includes('제설함')){
+return '../images/snowremovalbox_red.jpg'
+}
+else if(categoryId.includes('박스')){
+return '../images/box_red.jpg'
+}
+else if(categoryId.includes('낙석')){
+return '../images/fallingrock_red.jpg'
+}
+else if(categoryId.includes('포트홀')){
+return '../images/pothole_red.png'
+}
+} 
+}
+      // 조건에 따라 마커 이미지를 결정하는 함수를 호출하여 마커 이미지를 가져옵니다.
+  const SelectedMarkerImage = getMarkerImage(item.creationTime, item.categoryId);
+
+  console.log("SelectedMarkerImage:", SelectedMarkerImage);
       // 마커 생성 및 지도에 추가
+
+       // 내 위치 마커 이미지 정의
+   const myLocationImage1 = new kakao.maps.MarkerImage(
+    SelectedMarkerImage, // 빨간색 마커 이미지 URL
+    new kakao.maps.Size(30, 30), // 마커 이미지 크기
+    { offset: new kakao.maps.Point(15, 15) } // 마커 이미지 좌표 설정 (가운데 정렬을 위해)
+  );
+  console.log("결과:",myLocationImage1);
+
       const marker = new kakao.maps.Marker({
         position: new kakao.maps.LatLng(item.lat, item.lng),
         map: map,
+        image:myLocationImage1,
       });
 
       // 마커 클릭 시 팝업창 열기
@@ -181,10 +367,11 @@ console.log('Filtered Data:', filteredData);
       // 생성된 마커를 전역 배열에 저장
       markers.push(marker);
     });
-  }
 
-  // '확인' 버튼에 이벤트 리스너 등록
-  document.getElementById("apply-button").addEventListener("click", applyFilter);
+
+    
+
+  
 
 
 
@@ -292,13 +479,7 @@ console.log('Filtered Data:', filteredData);
       });
     }
   
-    // 카카오맵 api를 띄우는 코드
-    var container = document.getElementById('map');
-    var options = {
-      center: new kakao.maps.LatLng(37.570013917406, 126.9780542555),
-      level: 3
-    };
-    var map = new kakao.maps.Map(container, options);
+  
   
     
   /* goofficer는 처음에 마커를 보여주지 않고, 조건애 맞는 마커만 보여준다.
@@ -327,34 +508,8 @@ console.log('Filtered Data:', filteredData);
     });
     */
   
-    // 내 위치 버튼을 눌렀을 때 지도를 내 위치로 이동
-    document.querySelector('.my-location-button').addEventListener('click', function () {
-      navigator.geolocation.getCurrentPosition(function (position) {
-        var lat = position.coords.latitude;
-        var lng = position.coords.longitude;
   
-        map.setCenter(new kakao.maps.LatLng(lat, lng));
-         // 기존에 있던 내 위치 마커를 제거
-         if (myLocationMarker) {
-          myLocationMarker.setMap(null);
-        }
-   // 내 위치 마커 이미지 정의
-   var myLocationImage = new kakao.maps.MarkerImage(
-    'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png', // 빨간색 마커 이미지 URL
-    new kakao.maps.Size(30, 30), // 마커 이미지 크기
-    { offset: new kakao.maps.Point(15, 15) } // 마커 이미지 좌표 설정 (가운데 정렬을 위해)
-  );
-        // 내 위치 마커 생성 및 지도에 추가
-        myLocationMarker = new kakao.maps.Marker({
-          position: new kakao.maps.LatLng(lat, lng),
-          map: map,
-          image: myLocationImage, // 내 위치 마커 이미지 설정
-        });
-      }, function (error) {
-        console.error('Error getting current location:', error);
-      });
-    });
-  });
+  };
 
   //주소1에 따라 주소 2의 option이 변하는 코드.
   var address2Options = {
@@ -388,18 +543,6 @@ function addOptions(selectElement, options) {
     }
 }
 
-// 주소1에 따라 주소2 옵션 동적으로 변경
-function updateAddress2Options() {
-    var address1 = document.getElementById("address1").value;
-    var address2Select = document.getElementById("address2");
 
-    // 주소2 옵션 초기화
-    address2Select.innerHTML = "<option value=''>시/군/구 선택</option>";
 
-    // 주소1에 따라 주소2 옵션 설정
-    if (address2Options.hasOwnProperty(address1)) {
-        addOptions(address2Select, address2Options[address1]);
-    }
-
-   
-}
+});
