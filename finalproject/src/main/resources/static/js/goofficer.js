@@ -224,6 +224,7 @@ console.log('Filtered Data:', filteredData);
 //지난 날짜, categoryId에 따라 마커가 바뀌는 함수.
 function getMarkerImage(creationTime, categoryId1){
   const categoryId  = String(categoryId1);
+  
   console.log(categoryId);
   const currentDate = new Date();
   const markerDate = new Date(creationTime);
@@ -231,37 +232,38 @@ function getMarkerImage(creationTime, categoryId1){
   // 생성 날짜가 최근 7일 이내인지 확인(파란색)
   if ((currentDate - markerDate) < (7 * 24 * 60 * 60 * 1000)) {
     // 카테고리 ID에 따라 마커 이미지를 결정
+    //이미지 주소는 aws s3에 저장된 이미지 주소를 가져온다.
     if (categoryId.includes('PE드럼')) {
-      return '../images/drum_blue.jpg'; // 프로젝트 구조에 맞게 실제 파일 경로를 수정하세요.
+      return 'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/drum_blue.png'; // 프로젝트 구조에 맞게 실제 파일 경로를 수정하세요.
     } else if(categoryId.includes('PE방호벽')){
-      return '../images/firewall_blue.jpg'
+      return 'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/firewall_blue.png'
     }
     else if(categoryId.includes('PE안내봉')){
-      return '../images/guiderod_blue.jpg'
+      return 'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/guiderod_blue.png'
     }
     else if(categoryId.includes('라바콘')){
-      return '../images/con_blue.jpg'
+      return 'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/con_blue.png'
     }
     else if(categoryId.includes('시선유도봉')){
-      return '../images/gazeguideroad_blue.jpg'
+      return 'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/gazeguideroad_blue.png'
     }
     else if(categoryId.includes('PE휀스')){
-      return '../images/fence_blue.jpg'
+      return 'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/fence_blue.png'
     }
     else if(categoryId.includes('PE입간판')){
-      return '../images/signboard_blue.jpg'
+      return 'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/signboard_blue.png'
     }
     else if(categoryId.includes('제설함')){
-      return '../images/snowremovalbox_blue.jpg'
+      return 'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/snowremovalbox_blue.png'
     }
     else if(categoryId.includes('박스')){
-      return '../images/box_blue.jpg'
+      return 'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/box_blue.png'
     }
     else if(categoryId.includes('낙석')){
-      return '../images/fallingrock_blue.jpg'
+      return 'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/fallingrock_blue.png'
     }
     else if(categoryId.includes('포트홀')){
-      return '../images/pothole_blue.jpg'
+      return 'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/pothole_blue.png'
     }
   } 
 
@@ -269,36 +271,36 @@ function getMarkerImage(creationTime, categoryId1){
   else if ((currentDate - markerDate) < (30 * 24 * 60 * 60 * 1000)) {
 // 카테고리 ID에 따라 마커 이미지를 결정
 if (categoryId.includes('PE드럼')) {
-return '../images/drum_yellow.jpg'; // 프로젝트 구조에 맞게 실제 파일 경로를 수정하세요.
+return 'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/drum_yellow.png'; // 프로젝트 구조에 맞게 실제 파일 경로를 수정하세요.
 } else if(categoryId.includes('PE방호벽')){
-return '../images/firewall_yellow.jpg'
+return 'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/firewall_yellow.png'
 }
 else if(categoryId.includes('PE안내봉')){
-return '../images/guiderod_yellow.jpg'
+return 'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/guiderod_yellow.png'
 }
 else if(categoryId.includes('라바콘')){
-return '../images/con_yellow.jpg'
+return 'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/con_yellow.png'
 }
 else if(categoryId.includes('시선유도봉')){
-return '../images/gazeguideroad_yellow.jpg'
+return 'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/gazeguideroad_yellow.png'
 }
 else if(categoryId.includes('PE휀스')){
-return '../images/fence_yellow.jpg'
+return 'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/fence_yellow.png'
 }
 else if(categoryId.includes('PE입간판')){
-return '../images/signboard_yellow.jpg'
+return 'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/signboard_yellow.png'
 }
 else if(categoryId.includes('제설함')){
-return '../images/snowremovalbox_yellow.jpg'
+return 'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/snowremovalbox_yellow.png'
 }
 else if(categoryId.includes('박스')){
-return '../images/box_yellow.jpg'
+return 'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/box_yellow.png'
 }
 else if(categoryId.includes('낙석')){
-return '../images/fallingrock_yellow.jpg'
+return 'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/fallingrock_yellow.png'
 }
 else if(categoryId.includes('포트홀')){
-return '../images/pothole_yellow.jpg'
+return 'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/pothole_yellow.png'
 }
 } 
 
@@ -306,36 +308,36 @@ return '../images/pothole_yellow.jpg'
   else{
 // 카테고리 ID에 따라 마커 이미지를 결정
 if (categoryId.includes('PE드럼')) {
-return '../images/drum_red.jpg'; // 프로젝트 구조에 맞게 실제 파일 경로를 수정하세요.
+return 'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/drum_red.png'; // 프로젝트 구조에 맞게 실제 파일 경로를 수정하세요.
 } else if(categoryId.includes('PE방호벽')){
-return '../images/firewall_red.jpg'
+return 'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/firewall_red.png'
 }
 else if(categoryId.includes('PE안내봉')){
-return '../images/guiderod_red.jpg'
+return 'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/guiderod_red.png'
 }
 else if(categoryId.includes('라바콘')){
-return '../images/con_red.jpg'
+return 'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/con_red.png'
 }
 else if(categoryId.includes('시선유도봉')){
-return '../images/gazeguideroad_red.jpg'
+return 'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/gazeguideroad_red.png'
 }
 else if(categoryId.includes('PE휀스')){
-return '../images/fence_red.jpg'
+return 'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/fence_red.png'
 }
 else if(categoryId.includes('PE입간판')){
-return '../images/signboard_red.jpg'
+return 'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/signboard_red.png'
 }
 else if(categoryId.includes('제설함')){
-return '../images/snowremovalbox_red.jpg'
+return 'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/snowremovalbox_red.png'
 }
 else if(categoryId.includes('박스')){
-return '../images/box_red.jpg'
+return 'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/box_red.png'
 }
 else if(categoryId.includes('낙석')){
-return '../images/fallingrock_red.jpg'
+return 'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/fallingrock_red.png'
 }
 else if(categoryId.includes('포트홀')){
-return '../images/pothole_red.png'
+return 'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/pothole_red.png'
 }
 } 
 }
