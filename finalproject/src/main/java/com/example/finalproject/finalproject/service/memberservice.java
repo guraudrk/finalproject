@@ -68,7 +68,7 @@ public class memberservice {
 
         // 1.회원이 입력한 아이디로 db에서 조회를 한다.
         // Optional은 memberentity를 한번 더 감싸는 개념이다.
-        Optional<MemberEntity> findById = memberRepository.findById(memberDTO.getMemberId());
+        Optional<MemberEntity> findById = memberRepository.findByMemberId(memberDTO.getMemberId());
 
         // 조회 결과가 있다면
         if (findById.isPresent()) {
@@ -126,7 +126,7 @@ public class memberservice {
 
     public String idCheck(String memberId) {
         // repository 함수를 통해 사용자가 입력한 아이디 값으로 조회를 한다.
-        Optional<MemberEntity> byMemberId = memberRepository.findById(memberId);
+        Optional<MemberEntity> byMemberId = memberRepository.findByMemberId(memberId);
         if (byMemberId.isPresent()) {
 
             // 아이디 값이 이미 있으면(회원이 중복되어 있으면)사용할 수 없다.

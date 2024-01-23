@@ -13,7 +13,9 @@ public interface memberRepository extends JpaRepository<MemberEntity, Long> {
 
     // 인터페이스로 repository를 정의하기 때문에, 추상 클래스를 정의할 수 있다.
 
-    Optional<MemberEntity> findByEmail(String memberEmail);
+    // 이메일로 찾기
+    Optional<MemberEntity> findByEmail(String email);
 
-    Optional<MemberEntity> findById(String memberId);
+    // member_id로 찾기.
+    Optional<MemberEntity> findByMemberId(String memberId);
 }

@@ -74,6 +74,7 @@ public class MemberEntity {
     // memberDTO를 MemberEntity로 변환하는 메소드
     public static MemberEntity toMemberEntity(memberDTO memberDTO) {
         MemberEntity memberEntity = new MemberEntity();
+        memberEntity.setId(memberDTO.getId());
         memberEntity.setMemberId(memberDTO.getMemberId());
         memberEntity.setEmail(memberDTO.getEmail());
         memberEntity.setPassword(memberDTO.getPassword());
