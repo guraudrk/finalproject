@@ -2,6 +2,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Arial', sans-serif;
+  background-color: #F5F5DC; /* 원하는 배경색으로 변경하세요 */
 }
 
 .icon-container {
@@ -64,18 +65,21 @@ body {
   /*width: 100%;*/
   max-width: 640px;
   position: absolute;
-  top: 120px; /* 80px (icon-container height) + 20px margin */
+  top: calc(50% + 20px); /* 중앙 위치에서 20px 아래로 */  
+  /*이런 식으로 여백을 두어야 map과 webcam간의 간격이 확보된다.*/
   left: 0;
   margin: 20px;
   z-index: 100;
 }
 
 #map {
-  width: 100%;
-  height: 100vh;
+  border: 2px solid #000;
+  width: 60%; /*너비를 조절한다. 100%이면, 지도가 full로 웹에 보여진다.*/
+  height: 60vh; /*높이를 "*/
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 

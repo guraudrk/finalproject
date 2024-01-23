@@ -170,7 +170,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
  // 내 위치 마커 이미지 정의
  var myLocationImage = new kakao.maps.MarkerImage(
-  'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png', // 빨간색 마커 이미지 URL
+  'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/asset-5-1Xi.png', 
   new kakao.maps.Size(30, 30), // 마커 이미지 크기
   { offset: new kakao.maps.Point(15, 15) } // 마커 이미지 좌표 설정 (가운데 정렬을 위해)
 );
