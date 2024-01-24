@@ -22,6 +22,8 @@ repositories {
 }
 
 dependencies {
+	//메일 서버와 연결해서 메일을 발송하는데 필요한 라이브러리
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	implementation platform('software.amazon.awssdk:bom:2.17.53')
     implementation 'software.amazon.awssdk:s3'
     implementation 'software.amazon.awssdk:regions'

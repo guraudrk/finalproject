@@ -1,10 +1,14 @@
 package com.example.finalproject.finalproject.controller;
 
+import java.util.Optional;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.finalproject.finalproject.dto.memberDTO;
+import com.example.finalproject.finalproject.entity.MemberEntity;
 import com.example.finalproject.finalproject.service.memberservice;
 
 import lombok.RequiredArgsConstructor;
@@ -30,12 +35,17 @@ public class controllerclass {
     }
 
     @GetMapping("/main") // 메인 페이지로 이동하는 컨트롤러.
-    public String gomain() {
+    public String gomain(Model model, HttpSession session) {
+
+        // 세션에 저장된 memberId를 모델에 추가
+        model.addAttribute("loggedInUser", session.getAttribute("loggedInUser"));
         return "main";
     }
 
     @GetMapping("/goofficer") // 지자체 페이지로 이동하는 컨트롤러.
-    public String goOfficer() {
+    public String goOfficer(Model model, HttpSession session) {
+        // 세션에 저장된 memberId를 모델에 추가
+        model.addAttribute("loggedInUser", session.getAttribute("loggedInUser"));
         return "goofficer";
     }
 
@@ -54,7 +64,7 @@ public class controllerclass {
             @RequestParam("password") String password,
             HttpSession session, RedirectAttributes attributes) {
         try {
-
+            // 실제로는 데이터베이스나 다른 인증 로직을 통해 사용자를 검증하는 작업이 필요
             memberDTO result = memberService.login(new memberDTO(memberId, password));
 
             if (result != null) {
@@ -74,6 +84,14 @@ public class controllerclass {
             attributes.addFlashAttribute("errorMessage", "로그인 중 오류가 발생했습니다.");
             return "redirect:/login";
         }
+    }
+
+    // 로그아웃에 관한 get매핑이다.
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        // 세션에서 사용자 정보 삭제
+        request.getSession().invalidate();// 로그아웃은 이거 한줄이면 뚝딱이다.
+        return "redirect:/main";
     }
 
     @GetMapping("/signup") // 회원가입 페이지로 이동하는 컨트롤러.
@@ -130,6 +148,20 @@ public class controllerclass {
 
         return checkResult;
 
+    }
+
+    // 이메일로 아이디 찾기 요청 처리
+    @PostMapping("/findIdByEmail")
+    public ResponseEntity<MemberEntity> findIdByEmail(@RequestParam String email) {
+        Optional<MemberEntity> memberEntityOptional = memberService.findIdByEmail(email);
+        return memberEntityOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    // 아이디로 비밀번호 찾기 요청 처리
+    @PostMapping("/findPasswordById")
+    public ResponseEntity<MemberEntity> findPasswordById(@RequestParam String memberId) {
+        Optional<MemberEntity> memberEntityOptional = memberService.findPasswordById(memberId);
+        return memberEntityOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
 }

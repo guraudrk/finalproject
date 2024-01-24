@@ -14,8 +14,16 @@
 </head>
 <body>
     <div class="icon-container">ROADs</div>
-    <div class="login-button">로그인</div>
+    <div class="login-button">
+        <!-- 모델에 loggedInUser가 있다면 로그인 상태로 간주 -->
+    <a th:if="${loggedInUser != null}" href="/logout">로그아웃</a>
+    <a th:unless="${loggedInUser != null}" href="/login">로그인</a>
+    </div>
     <div class="my-location-button">내 위치</div>
+    <!-- 조건에 따라 보이거나 숨겨질 지자체 페이지 버튼 -->
+    <div th:if="${loggedInUser != null}" class="local-government-button">
+        <a href="/goofficer">지자체 페이지</a>
+    </div>
     <video id="webcam" width="320" height="240" ></video>
     <div id="map" style="width: 50%; height: 60vh;"></div>
     <script src="/static/js/main.js"></script>

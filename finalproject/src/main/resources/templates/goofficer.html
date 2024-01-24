@@ -14,7 +14,11 @@
 </head>
 <body>
     <div class="icon-container">ROADs</div>
-    <div class="logout-button">로그아웃</div>
+    <div class="logout-button">
+         <!-- 모델에 loggedInUser가 있다면 로그인 상태로 간주 -->
+    <a th:if="${loggedInUser != null}" href="/logout">로그아웃</a>
+    <a th:unless="${loggedInUser != null}" href="/login">로그인</a>
+    </div>
     <div class="my-location-button">내 위치</div>
     <div id="data-details-button">데이터 상세보기</div>
     <div id="filter-container">

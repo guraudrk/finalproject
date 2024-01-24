@@ -161,4 +161,15 @@ public class memberservice {
 
         return false;
     }
+
+       // 이메일로 아이디 찾기
+       public Optional<MemberEntity> findIdByEmail(String email) {
+        return memberRepository.findByEmail(email);
+    }
+
+    // 아이디로 비밀번호 찾기
+    public Optional<MemberEntity> findPasswordById(String memberId) {
+        return memberRepository.findByMemberId(memberId);
+    }
+
 }
