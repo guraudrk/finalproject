@@ -14,6 +14,22 @@ public class RoadDamageDto {
     private double lat;
     private double lng;
 
+    public RoadDamageDto() {
+        // 기본 생성자
+    }
+
+    public RoadDamageDto(String memberId, String categoryId, Timestamp creationTime, Timestamp completionTime,
+            String photoInfo, String maintenance, double lat, double lng) {
+        this.memberId = memberId;
+        this.categoryId = categoryId;
+        this.creationTime = creationTime;
+        this.completionTime = completionTime;
+        this.photoInfo = photoInfo;
+        this.maintenance = maintenance;
+        this.lat = lat;
+        this.lng = lng;
+    }
+
     // Constructors, getters, setters
 
     public Integer getId() {

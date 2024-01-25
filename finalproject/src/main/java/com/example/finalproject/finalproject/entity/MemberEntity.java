@@ -1,5 +1,7 @@
 package com.example.finalproject.finalproject.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +13,7 @@ import com.example.finalproject.finalproject.dto.memberDTO;
 
 @Entity
 @Table(name = "MemberInfo")
-public class MemberEntity {
+public class MemberEntity implements Serializable {
     // Table이라는 어노테이션은 데이터베이스에 해당 이름의 테이블이 자동으로 생기도록 해준다.
     // 이 엔티티 클래스가 테이블의 역활을 한다.
 

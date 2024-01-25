@@ -1,5 +1,46 @@
 document.addEventListener('DOMContentLoaded', function () {
+
+var loggedInUser;
+
+//id 저장.
+var id1;
+
+  // 주소1에 따라 주소2 옵션 동적으로 변경
+function updateAddress2Options() {
+  var address1 = document.getElementById("address1").value;
+  var address2Select = document.getElementById("address2");
+
+  // 주소2 옵션 초기화
+  address2Select.innerHTML = "<option value=''>시/군/구 선택</option>";
+
+  // 주소1에 따라 주소2 옵션 설정
+  if (address2Options.hasOwnProperty(address1)) {
+      addOptions(address2Select, address2Options[address1]);
+  }
+
+ 
+}
   
+  //ajax를 사용해, 서버에서 아이디 값을 비동기적으로 가져온다.
+  getLoggedInUser();
+
+// 아이디를 비동기적으로 가져오는 함수
+async function getLoggedInUser() {
+  try {
+      // 서버에 아이디를 가져오기 위한 Ajax 요청
+      const response = await fetch('/getLoggedInUser');
+      const data = await response.text();
+
+      // 가져온 아이디 값을 변수에 저장
+       loggedInUser = data;
+
+      // 이후에 로직 처리...
+      console.log("로그인된 사용자 아이디:", loggedInUser);
+  } catch (error) {
+      console.error('Error:', error);
+  }
+}
+
 
     // 카카오맵 api를 띄우는 코드
     var container = document.getElementById('map');
@@ -56,21 +97,7 @@ function clearMarkers() {
   markers = [];
 }
 
-// 주소1에 따라 주소2 옵션 동적으로 변경
-function updateAddress2Options() {
-  var address1 = document.getElementById("address1").value;
-  var address2Select = document.getElementById("address2");
 
-  // 주소2 옵션 초기화
-  address2Select.innerHTML = "<option value=''>시/군/구 선택</option>";
-
-  // 주소1에 따라 주소2 옵션 설정
-  if (address2Options.hasOwnProperty(address1)) {
-      addOptions(address2Select, address2Options[address1]);
-  }
-
- 
-}
 
     //좌측 탭- '주소1' 선택 드롭다운 엘리먼트에 대한 이벤트 리스너 추가
     var address1Select = document.getElementById("address1");
@@ -222,6 +249,7 @@ console.log('Filtered Data:', filteredData);
     // 6. 확인 버튼을 다시 누르면, 3,4가 다시 동작한다.
     filteredData.forEach(item => {
 //지난 날짜, categoryId에 따라 마커가 바뀌는 함수.
+console.log('데이터:',item);
 function getMarkerImage(creationTime, categoryId1){
   const categoryId  = String(categoryId1);
   
@@ -347,27 +375,35 @@ return 'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/pothole_
   console.log("SelectedMarkerImage:", SelectedMarkerImage);
       // 마커 생성 및 지도에 추가
 
-       // 내 위치 마커 이미지 정의
-   const myLocationImage1 = new kakao.maps.MarkerImage(
-    SelectedMarkerImage, // 빨간색 마커 이미지 URL
-    new kakao.maps.Size(30, 30), // 마커 이미지 크기
-    { offset: new kakao.maps.Point(15, 15) } // 마커 이미지 좌표 설정 (가운데 정렬을 위해)
+   // '미완료' 상태인 경우에만 마커 생성
+if (item.maintenance !== '완료') {
+  // 내 위치 마커 이미지 정의
+  const myLocationImage1 = new kakao.maps.MarkerImage(
+      SelectedMarkerImage, // 빨간색 마커 이미지 URL
+      new kakao.maps.Size(30, 30), // 마커 이미지 크기
+      { offset: new kakao.maps.Point(15, 15) } // 마커 이미지 좌표 설정 (가운데 정렬을 위해)
   );
-  console.log("결과:",myLocationImage1);
 
-      const marker = new kakao.maps.Marker({
-        position: new kakao.maps.LatLng(item.lat, item.lng),
-        map: map,
-        image:myLocationImage1,
-      });
+  console.log("결과:",item.creationTime);
+  console.log('가져온 위도값:',item.lat);
+  console.log('가져온 경도값:',item.lng);
 
-      // 마커 클릭 시 팝업창 열기
-      kakao.maps.event.addListener(marker, 'click', function () {
-        openPopup(item);
-      });
+  const marker = new kakao.maps.Marker({
+      position: new kakao.maps.LatLng(item.lat, item.lng),
+      map: map,
+      image:myLocationImage1,
+  });
 
-      // 생성된 마커를 전역 배열에 저장
-      markers.push(marker);
+  // 마커 클릭 시 팝업창 열기
+  kakao.maps.event.addListener(marker, 'click', function () {
+      openPopup(item);
+  });
+
+  // 생성된 마커를 전역 배열에 저장
+  markers.push(marker);
+} else {
+  console.log('보수가 완료된 마커는 생성되지 않습니다.');
+}
     });
 
 
@@ -385,55 +421,169 @@ return 'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/pothole_
       }
     }
   
+
     // 팝업창을 열기 위한 함수
-    async function openPopup(markerData) {
-      // 위도, 경도를 도로명 주소로 변환
-      const address = await convertLatLngToAddress(markerData.lat, markerData.lng);
-  
-      var popupContent = `
-        <div class="popup-content">
+async function openPopup(markerData) {
+  // 위도, 경도를 도로명 주소로 변환
+  id1=markerData.id;
+  const address = await convertLatLngToAddress(markerData.lat, markerData.lng);
+  var popupContent = `
+      <div class="popup-content">
           <img src="${markerData.photoInfo}" width="100" height="250">
           <p><b>검출날짜:</b> ${markerData.creationTime}</p>
           <p><b>위치(도로명주소):</b> ${address}</p>
           <p><b>카테고리명:</b> ${markerData.categoryId}</p>
-          <p><b>보수상태:</b> ${markerData.maintenance}</p>
-        </div>
-        <div class="popup-close-btn">수정</div>
-      `;
-  
-      //새로운 div 엘리먼트를 생성한다.
-      var popup = document.createElement('div');
-      //새 엘리먼트에 popup이라는 css 클래스를 추가한다.
-      popup.classList.add('popup');
-      //html 내용을 popupcontent 변수에 저장된 값으로 설정한다.
-      //팝업 창의 내용을 동적으로 생성한 html 코드로 채운다.
-      popup.innerHTML = popupContent;
-  
-      //팝업창이 화면 중앙에 위치하게 하기 위한 코드.
-      var popupTop = (window.innerHeight - popup.offsetHeight) / 2;
-      var popupLeft = (window.innerWidth - popup.offsetWidth) / 2;
-      popup.style.top = popupTop + 'px';
-      popup.style.left = popupLeft + 'px';
-  
-      // 팝업에 닫기 버튼에 대한 이벤트 리스너 추가
-      var closeButton = popup.querySelector('.popup-close-btn');
-      closeButton.addEventListener('click', function () {
-        closePopup();
-      });
-  
-      document.body.appendChild(popup);
-  
-      // 다른 부분 클릭 시 팝업창 닫음.
-      document.addEventListener('click', function (event) {
-        // 현재 클릭한 엘리먼트
-        var clickedElement = event.target;
-  
-        // 팝업 영역 또는 닫기 버튼을 눌렀을 때만 팝업 닫음.
-        if (!popup.contains(clickedElement) && !clickedElement.classList.contains('popup-close-btn')) {
+          <p><b>보수상태:</b> ${markerData.maintenance || '미완료'}</p>
+      </div>
+      <div class="popup-close-btn">수정</div>
+  `;
+
+  //새로운 div 엘리먼트를 생성한다.
+  //이는 javascript 안에서 html을 사용하기 위해 쓴다.
+  var popup = document.createElement('div');
+  //새 엘리먼트에 popup이라는 css 클래스를 추가한다.
+  popup.classList.add('popup');
+  //html 내용을 popupcontent 변수에 저장된 값으로 설정한다.
+  //팝업 창의 내용을 동적으로 생성한 html 코드로 채운다.
+  popup.innerHTML = popupContent;
+
+  //팝업창이 화면 중앙에 위치하게 하기 위한 코드.
+  var popupTop = (window.innerHeight - popup.offsetHeight) / 2;
+  var popupLeft = (window.innerWidth - popup.offsetWidth) / 2;
+  popup.style.top = popupTop + 'px';
+  popup.style.left = popupLeft + 'px';
+
+  // 팝업에 닫기 버튼에 대한 이벤트 리스너 추가
+  var closeButton = popup.querySelector('.popup-close-btn');
+  closeButton.addEventListener('click', function () {
+      // "수정" 버튼을 눌렀을 때의 로직 추가
+      handleEdit(popup);
+  });
+
+  document.body.appendChild(popup);
+
+  // 다른 부분 클릭 시 팝업창 닫음.
+  document.addEventListener('click', function (event) {
+      // 현재 클릭한 엘리먼트
+      var clickedElement = event.target;
+
+      // 팝업 영역 또는 닫기 버튼을 눌렀을 때만 팝업 닫음.
+      if (!popup.contains(clickedElement) && !clickedElement.classList.contains('popup-close-btn')) {
           closePopup();
+      }
+  });
+}
+
+// "수정" 버튼을 눌렀을 때 처리할 함수
+function handleEdit(popup) {
+  // 여기에 "수정" 버튼을 눌렀을 때의 로직 추가
+  console.log('수정 버튼을 눌렀을 때의 처리');
+  // 여기에서 새로운 팝업을 열도록 호출
+  openAdditionalPopup(popup);
+}
+
+// 추가로 뜨는 팝업을 열기 위한 함수
+function openAdditionalPopup(parentPopup) {
+  // 기존 팝업을 닫지 않음. 그러므로 closePopup()을 주석 처리함.
+  //closePopup();
+
+  // 여기에 추가로 뜨는 팝업에 대한 로직을 작성하세요.
+  console.log('추가로 뜨는 팝업을 열기');
+  // 여기에 원하는 팝업 창 열기 로직 추가
+
+  // 예시: 추가로 뜨는 팝업 생성
+  var additionalPopupContent = `
+  <div class="additional-popup-content">
+  <p>'${loggedInUser}'로 도로 위험물 수정 처리를 하시겠습니까?</p>
+  <button class="additional-popup-confirm-btn">예</button>
+  <button class="additional-popup-cancel-btn">아니오</button>
+  
+  </div>
+  `;
+
+  var additionalPopup = document.createElement('div');
+  additionalPopup.classList.add('additional-popup');
+  additionalPopup.innerHTML = additionalPopupContent;
+
+  // 추가로 뜨는 팝업을 기존 팝업의 하위 요소로 추가
+  parentPopup.appendChild(additionalPopup);
+
+  // 추가로 뜨는 팝업에 닫기 버튼에 대한 이벤트 리스너 추가
+  var additionalCloseButton = additionalPopup.querySelector('.additional-popup-close-btn');
+  additionalCloseButton.addEventListener('click', function () {
+      // 추가로 뜨는 팝업을 닫기
+      parentPopup.removeChild(additionalPopup);
+  });
+    // openPopup 함수 호출 시 생성한 팝업 객체를 변수에 저장
+//const myPopup = openPopup();
+
+// 추가로 뜨는 팝업을 여는 함수 호출 시 myPopup을 전달
+//openAdditionalPopup(myPopup);
+
+    // "예" 버튼에 대한 이벤트 리스너 추가
+    var confirmButton = parentPopup.querySelector('.additional-popup-confirm-btn');
+    confirmButton.addEventListener('click', async function () {
+        // 여기에 "예" 버튼을 눌렀을 때의 로직 추가
+        console.log('예 버튼을 눌렀을 때의 처리');
+
+        // 1. '예'를 누르면 alert로 '도로 위험물 수정 처리가 완료되었습니다.'가 뜨고 팝업을 닫는다.
+        alert('도로 위험물 수정 처리가 완료되었습니다.');
+        
+       
+
+        // 2. '아니오'를 누르면 그냥 팝업을 닫아.
+
+        // 3. '예'를 누르면, memberId에 ${loggedInUser}가 저장되고, completion_time에 지금 시간이 저장되고(년-월-일), maintenance에 '완료'가 저장된다.
+      
+
+        console.log('id1:',id1);
+        //id를 통해 맞는 컬럼을 조회하고, 그 다음에 업데이트를 한다.
+        const updateData = {
+            id:id1,
+            memberId: loggedInUser,
+            completionTime: new Date(),  // 현재 시간으로 업데이트
+            maintenance: '완료'
+        };
+
+        try {
+           //데이터를 업데이트 할 때는 put을 쓰는 것이 맞다.
+            const response = await fetch(`/api/updateMarker/${id1}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updateData),
+            });
+
+           
+            if (response.ok) {
+                console.log('도로 위험물 데이터가 성공적으로 업데이트되었습니다.');
+            } else {
+                console.error('도로 위험물 데이터 업데이트 실패:', response.statusText);
+            }
+        } catch (error) {
+            console.error('도로 위험물 데이터 업데이트 중 오류 발생:', error);
         }
-      });
-    }
+
+        //팝업을 닫는다.
+     parentPopup.removeChild(additionalPopup);
+    });
+
+     
+
+    // "아니오" 버튼에 대한 이벤트 리스너 추가
+    var cancelButton = parentPopup.querySelector('.additional-popup-cancel-btn');
+    cancelButton.addEventListener('click', function () {
+        // 여기에 "아니오" 버튼을 눌렀을 때의 로직 추가
+        console.log('아니오 버튼을 눌렀을 때의 처리');
+        // 팝업을 닫기만 함
+        parentPopup.removeChild(additionalPopup);
+    });
+}
+
+// 팝업을 여는 함수 호출
+//openPopup();
+}
   
     // 도로명주소로 변환하는 함수
     // 비동기 함수의 결과에 따라 promise의 resolve,reject 둘중 하나가 실행됨.
@@ -472,6 +622,7 @@ return 'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/pothole_
   
         geocoder.coord2Address(lng, lat, function (result, status) {
           if (status === kakao.maps.services.Status.OK) {
+          
             resolve(result[0].address.address_name);
           } else {
             // 거부되면 reject를 호출하고 오류 정보를 전달합니다.
@@ -484,34 +635,10 @@ return 'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/pothole_
   
   
     
-  /* goofficer는 처음에 마커를 보여주지 않고, 조건애 맞는 마커만 보여준다.
-    // 디비에서 정보를 가져와서 지도에 마커로 표시해주는 코드
-    kakao.maps.load(async () => {
-      try {
-        const response = await fetch('/api/getMarkers');
-        const data = await response.json();
-  
-        data.forEach(item => {
-          var marker = new kakao.maps.Marker({
-            position: new kakao.maps.LatLng(item.lat, item.lng),
-            map: map,
-          });
-  
-          kakao.maps.event.addListener(marker, 'click', function () {
-            // 클릭 시 팝업창 열기
-            openPopup(item);
-          });
-  
-          marker.setMap(map);
-        });
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    });
-    */
   
   
-  };
+  
+  });
 
   //주소1에 따라 주소 2의 option이 변하는 코드.
   var address2Options = {
@@ -547,4 +674,3 @@ function addOptions(selectElement, options) {
 
 
 
-});

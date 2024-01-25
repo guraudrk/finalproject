@@ -42,6 +42,13 @@ public class controllerclass {
         return "main";
     }
 
+    // officer.js에 아이디를 전달하는 controller 코드.
+    @GetMapping("/getLoggedInUser")
+    @ResponseBody
+    public String getLoggedInUser(HttpSession session) {
+        return (String) session.getAttribute("loggedInUser");
+    }
+
     @GetMapping("/goofficer") // 지자체 페이지로 이동하는 컨트롤러.
     public String goOfficer(Model model, HttpSession session) {
         // 세션에 저장된 memberId를 모델에 추가

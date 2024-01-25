@@ -60,6 +60,12 @@
         <button id="apply-button" onclick="applyFilter()">확인</button>
     </div>
     <div id="map" style="width: 50%; height: 60vh;"></div>
+    <script th:inline="javascript">
+        // `/goofficer` 페이지에서 아이디를 가져오는 코드
+        var loggedInUser = /*[[ ${loggedInUser} ]]*/;
+    
+        // 여기서 loggedInUser를 openPopup 함수에 전달하도록 수정 가능
+    </script>
     <script src="/static/js/goofficer.js"></script>
 </body>
 </html>

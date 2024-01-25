@@ -17,7 +17,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "FacilityInfo")
+@Table(name = "facility_info")
 public class RoadDamageEntity {
 
     @Id

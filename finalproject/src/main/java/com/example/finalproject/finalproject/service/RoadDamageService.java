@@ -3,6 +3,8 @@ package com.example.finalproject.finalproject.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +35,7 @@ public class RoadDamageService {
 
         // 데이터들을 디비에서 가져온다.
         RoadDamageDto dto = new RoadDamageDto();
+        dto.setId(roadDamage.getId());
         dto.setPhotoInfo(roadDamage.getPhotoInfo());
         dto.setLat(roadDamage.getLat());
         dto.setLng(roadDamage.getLng());
@@ -43,4 +46,18 @@ public class RoadDamageService {
         dto.setMaintenance(roadDamage.getMaintenance());
         return dto;
     }
+
+    public void updateRoadDamage(Integer id, RoadDamageDto updateDto) {
+        RoadDamageEntity roadDamageEntity = roadDamageRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("도로 위험물을 찾을 수 없습니다."));
+
+        // 업데이트할 필드들을 DTO에서 가져와 엔터티에 적용
+        roadDamageEntity.setMemberId(updateDto.getMemberId());
+        roadDamageEntity.setCompletionTime(updateDto.getCompletionTime()); // 현재 시간으로 업데이트
+        roadDamageEntity.setMaintenance(updateDto.getMaintenance());
+
+        // 디비에 새로 저장
+        roadDamageRepository.save(roadDamageEntity);
+    }
+
 }
