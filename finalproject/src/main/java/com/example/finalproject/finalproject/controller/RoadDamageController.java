@@ -48,4 +48,5 @@ public class RoadDamageController {
                     .body("도로 위험물 업데이트 중 오류 발생: " + e.getMessage());
         }
     }
+
 }

@@ -18,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.finalproject.finalproject.dto.memberDTO;
 import com.example.finalproject.finalproject.entity.MemberEntity;
+import com.example.finalproject.finalproject.service.RoadDamageService;
 import com.example.finalproject.finalproject.service.memberservice;
 
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,9 @@ public class controllerclass {
 
     // memeberservice 객체를 정의한다.
     private memberservice memberService;
+
+    // roadDamageService정의
+    private RoadDamageService roadDamageService;
 
     @Autowired
     public void MemberController(memberservice memberService) {

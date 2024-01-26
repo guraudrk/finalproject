@@ -1,11 +1,78 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="utf-8" />
+  <link rel="icon" th:href="@{/favicon.ico}" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <link th:href="@{/static/css/detail.css}" rel="stylesheet"/>
+  <title>데이터 상세보기</title>
+  <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=0db590807cb08a226ef449271cc2660f&libraries=services"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat%3A400%2C600%2C700"/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro%3A400%2C600%2C700"/>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 </head>
 <body>
+    <div class="icon-container">ROADs</div>
+    <div class="gotoGoofficer">지자체 페이지</div>
+
+    <div id="filter-container">
+        <div id="date-filter">
+            <label for="start-date">시작 날짜:</label>
+            <input type="date" id="start-date">
+            <label for="end-date">종료 날짜:</label>
+            <input type="date" id="end-date">
+        </div>
     
+        <div id="address-filter">
+            <label for="address1">주소1:</label>
+            <select id="address1" onchange="updateAddress2Options()">
+                <option value="서울">서울특별시</option>
+                <option value="인천">인천광역시</option>
+                <option value="대전">대전광역시</option>
+                <option value="광주">광주광역시</option>
+                <option value="대구">대구광역시</option>
+                <option value="울산">울산광역시</option>
+                <option value="부산">부산광역시</option>
+                <option value="경기도">경기도</option>
+                <option value="강원도">강원도</option>
+                <option value="충청북도">충청북도</option>
+                <option value="충청남도">충청남도</option>
+                <option value="전라북도">전라북도</option>
+                <option value="전라남도">전라남도</option>
+                <option value="경상북도">경상북도</option>
+                <option value="경상남도">경상남도</option>
+                <option value="제주도">제주도</option>
+            </select>
+    
+            <label for="address2">주소2:</label>
+            <select id="address2"></select>
+    
+            
+        </div>
+        <button id="apply-button" onclick="applyFilter()">확인</button>
+    </div>
+     <!-- 필터링된 데이터를 표시할 테이블 -->
+     <!--테이블이기 때문에, thead,tbody가 있다. -->
+     <div id="filtered-data-container">
+        <table id="filtered-data-table">
+            <thead>
+                <tr>
+                    <th>주소</th>
+                    <th>카테고리</th>
+                    <th>완료 시간</th>
+                    <th>생성 시간</th>
+                    <th>위도</th>
+                    <th>경도</th>
+                    <th>유지보수 여부</th>
+                    <th>멤버 ID</th>
+                </tr>
+            </thead>
+            <tbody id="filtered-data-body">
+                <!-- 여기에 필터링된 데이터가 추가될 것입니다 -->
+            </tbody>
+        </table>
+    </div>
+    <script src="/static/js/detail.js"></script>
 </body>
 </html>

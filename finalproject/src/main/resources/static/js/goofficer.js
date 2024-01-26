@@ -4,6 +4,16 @@ var loggedInUser;
 
 //id 저장.
 var id1;
+//data-details-button
+
+//데이터 상세보기를 저장할 배열을 전역 변수로 선언한다.
+//const는 상수이기 때문에 재선언이 불가능하다. 그래서 let으로 선언한다.
+let filteredData1=[];
+
+
+
+
+
 
   // 주소1에 따라 주소2 옵션 동적으로 변경
 function updateAddress2Options() {
@@ -62,8 +72,33 @@ async function getLoggedInUser() {
     3.우측 하단의 '데이터 상세보기'를 누르면, 좌측 탭에서 설정한 대로 데이터들을 디비에서 꺼내서 보여준다. 또한, 마커가 사라진다.
     */ 
 
+    /*
+async function sendFilteredDataToDetail(filteredData1) {
+  try {
+      const response = await fetch(`/api/filteredData`, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(filteredData1)
+      });
+      
+      // 전송이 성공하면 /detail 페이지로 이동
+      if(filteredData1.length<=0){
+        alert("상세보기를 할 데이터가 없습니다.")
+      }
+      else if (response.ok) {
+        window.location.href = '/detail';
+    } else {
+        console.error('Failed to send filtered data:', response.statusText);
+    }
+} catch (error) {
+    console.error('Error sending filtered data:', error);
+    alert("좌측 탭에서 조건을 고른 다음 '확인'을 누르세요.");
+}
 
-
+}
+*/
     // 날짜 형식이 유효한지 확인하는 함수
 function isValidDate(dateString) {
   const regex = /^\d{4}-\d{2}-\d{2}$/;
@@ -116,9 +151,9 @@ function clearMarkers() {
       window.location.href = '/main';
     });
     // '데이터 상세보기' 버튼을 누르면 /detail으로 이동
-    document.querySelector('#data-details-button').addEventListener('click', function () {
-        window.location.href = '/detail';
-      });
+    //document.querySelector('#data-details-button').addEventListener('click', function () {
+    //    window.location.href = '/detail';
+    //  });
   // '확인' 버튼에 이벤트 리스너 등록
   document.getElementById("apply-button").addEventListener("click",  function () {
    
@@ -238,6 +273,12 @@ for (const item of data) {
 
 // 최종 필터링된 데이터 출력
 console.log('Filtered Data:', filteredData);
+//filteredData를 전역 변수 배열에 선언
+//javascript에서 배열을 복사하는 로직을 쓴다.
+filteredData1=Array.from(filteredData);
+console.log("filteredData1:",filteredData1);
+
+
 
     // 5. 카카오맵을 통해, 좌표가 나타난 공간으로 지도를 이동한다.
     if (filteredData.length > 0) {
@@ -547,6 +588,7 @@ function openAdditionalPopup(parentPopup) {
 
         try {
            //데이터를 업데이트 할 때는 put을 쓰는 것이 맞다.
+           //우리는 맞는 데이터를 찾는 다음에, 그 데이터를 업데이트 할 것이기 때문에, put을 쓴다.
             const response = await fetch(`/api/updateMarker/${id1}`, {
                 method: 'PUT',
                 headers: {
@@ -584,7 +626,12 @@ function openAdditionalPopup(parentPopup) {
 // 팝업을 여는 함수 호출
 //openPopup();
 }
-  
+console.log("데이터 상세보기 페이지로 가는 배열:",filteredData1);
+  // 필터링된 데이터를 /detail 페이지로 전송하는 함수
+
+
+
+
     // 도로명주소로 변환하는 함수
     // 비동기 함수의 결과에 따라 promise의 resolve,reject 둘중 하나가 실행됨.
     async function convertLatLngToAddress(lat, lng) {
@@ -632,7 +679,10 @@ function openAdditionalPopup(parentPopup) {
       });
     }
   
-  
+  // 데이터 상세보기 클릭 이벤트 리스너 추가
+document.getElementById("data-details-button").addEventListener("click", function() {
+  window.location.href = '/detail';
+});
   
     
   

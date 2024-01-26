@@ -1,0 +1,249 @@
+/*기본적인 부분의 css는 main 페이지의 css와 똑같이 적용한다.*/
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #F5F5DC;
+  }
+  
+  .icon-container {
+    font-family: 'Poppins', 'Source Sans Pro';
+    height: 80px;
+    width: 120px;
+    background-color: #ffffff;
+    border: 2px solid #000000;
+    border-radius: 10px;
+    color: #000000;
+    font-weight: bold;
+    font-size: 24px;
+    text-align: center;
+    cursor: pointer;
+    line-height: 80px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 20px;
+    z-index: 100;
+  }
+  
+  .gotoGoofficer {
+    margin-bottom: 10px;
+    background-color: #ffffff;
+    font-family: 'Poppins', 'Source Sans Pro';
+    border: 2px solid #000;
+    padding: 10px;
+    font-weight: bold;
+    font-size: 18px;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 20px;
+    z-index: 100;
+  }
+
+  #filtered-data-container {
+    position: absolute;
+    top: 80px; /* 조절 가능한 값 */
+    left: 400px; /* filter-container의 너비만큼 떨어진 위치 */
+    background-color: #ffffff;
+    border: 2px solid #000;
+    padding: 20px;
+    font-family: 'Poppins', 'Source Sans Pro';
+    font-weight: bold;
+    z-index: 100;
+    border-radius: 8px;
+}
+
+#filtered-data-table {
+    width: 100%;
+}
+
+#filtered-data-table th,
+#filtered-data-table td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #ddd; /* 테이블 행 구분선 */
+}
+
+#filtered-data-table th {
+    background-color: #f2f2f2; /* 테이블 헤더 배경색 */
+    width: calc(100% / 8); /* 테이블 너비를 열의 수로 나눈 값으로 설정 */
+
+}
+  
+  .my-location-button {
+    
+    
+    background-color: #ffffff;
+    font-family: 'Poppins', 'Source Sans Pro';
+    border: 2px solid #000;
+    padding: 10px;
+     font-weight: bold;
+    font-size: 18px;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+    margin-top: 100px;
+    margin-bottom: 10px;
+    margin-right:20px;
+    z-index: 100;
+  }
+
+
+
+  #map {
+    border: 2px solid #000;
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  }
+  
+  
+  
+  
+  .popup {
+    position: fixed;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 20px;
+    z-index: 1000;
+    /* 높이와 너비 2배로 늘리기 */
+    height: 600px;
+    width: 480px;
+    
+    /* 팝업을 화면 가운데에 정렬하기 위한 스타일 */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  
+    /* 추가된 스타일 */
+    box-sizing: border-box; /* 패딩과 테두리를 포함한 전체 크기를 지정 */
+    margin-bottom: 10px; /* 하단 여백 없애기 */
+  }
+  
+  .popup img {
+    /* 사진 크기 조정 */
+    width: 100%;
+    height: auto;
+  }
+  .popup-content {
+    flex: 1; /* 팝업 내용이 자동으로 확장되도록 함 */
+    margin-bottom: 20px;
+  }
+  
+  .popup-content img {
+    margin-bottom: 40px;
+  }
+  
+  .popup-content p {
+    margin-bottom: 20px;
+  }
+  
+  .popup-close-btn {
+    margin-top: 40px;
+  }
+  
+  .popup-close-btn {
+   
+    width: 100%;
+    height: 20px; /* 원하는 높이로 조절 */
+    background-color: gray;
+    color: white;
+    border: none;
+    margin: 0 auto; /* 가운데 정렬을 위한 속성 추가 */
+    text-align: center;
+    text-decoration: none;
+    display: flex;
+    justify-content: center; /* 수평 가운데 정렬 */
+    align-items: center; /* 수직 가운데 정렬 */
+    font-size: 16px;
+    cursor: pointer;
+    
+  
+  }
+
+  #apply-button{
+    margin-top: 10px;
+    width: 100%;
+    cursor: pointer;
+    text-align: center;
+    padding: 10px;
+    background-color: #fff;
+    color: #000000;
+    border-radius: 5px;
+  }
+  
+
+/*데이터 상세보기 버튼의 css*/
+#filter-container {
+    width:300px;
+    position: absolute;
+    top: 20px; /* 조절 가능한 값 */
+    left: 20px; /* 조절 가능한 값 */
+    background-color: #ffffff;
+    border: 2px solid #000;
+    padding: 20px; /* 1. 세로 길이 3배 늘리기 */
+    font-family: 'Poppins', 'Source Sans Pro';
+    font-weight: bold;
+    z-index: 100;
+    margin-top: 100px;
+    border-radius: 8px; /*모서리 부분을 뭉특하게 한다.*/
+    
+
+}
+
+#filter-container label {
+    margin-right: 10px;
+    margin-bottom: 30px; /* 2. 세로 간격을 30px로 늘리기 */
+    display: block; /* 3. 주소1, 주소2를 다른 줄에 위치시키기 */
+}
+
+#filter-container select,
+#filter-container input {
+    margin-bottom: 20px; /* 각 요소 간 세로 간격을 30px로 늘리기 */
+}
+
+#filter-container #address2-container {
+    margin-top: 10px; /* 3. 주소2 위치 조절 */
+    display: none; /* 초기에는 주소2를 숨김 */
+}
+
+#filter-container button {
+    background-color: #ffffff;
+    font-family: 'Poppins', 'Source Sans Pro';
+    border: 2px solid #000;
+    padding: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+
+#start-date,
+#end-date {
+  
+    border-radius: 8px; /* 끝을 뭉특하게 만들기 위한 속성 */
+    border: 2px solid #333; /* 경계선을 진하게 만들기 위한 속성 */
+    width: 90%; /* 요소가 부모 너비에 가득 차도록 설정 */
+    padding: 10px; /* 내부 여백 설정 */
+    margin-bottom: 10px; /* 아래쪽 간격 설정 */
+
+ 
+}
+
+#address1,
+#address2{
+
+    border-radius: 8px; /* 끝을 뭉특하게 만들기 위한 속성 */
+    border: 2px solid #333; /* 경계선을 진하게 만들기 위한 속성 */
+    width: 100%; /* 요소가 부모 너비에 가득 차도록 설정 */
+    padding: 10px; /* 내부 여백 설정 */
+    margin-bottom: 10px; /* 아래쪽 간격 설정 */
+}
