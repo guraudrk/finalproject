@@ -246,10 +246,11 @@ function clearMarkers() {
 //    위도와 경도를 주소로 변환한 구문 중에 주소1/주소2가 있는지 확인한다.
 // 필터링된 데이터를 담을 배열을 초기화한다.
 const filteredData = [];
-
+console.log("data의 수:",data);
 // 주어진 데이터 배열을 순회하면서 필터링 수행
 //for 문으로 해야 필터링이 모든 데이터에 적용이 된다.
 for (const item of data) {
+  
   // 비동기적으로 주소를 가져오기 위해 Promise를 사용
   const address = await convertLatLngToAddress(item.lat, item.lng);
   
@@ -444,22 +445,24 @@ if (item.maintenance !== '완료') {
 
   // 생성된 마커를 전역 배열에 저장
   markers.push(marker);
+  console.log(marker);
+   // 클러스터러 생성
+
   
 } 
 
-
-
-    });
-    // 클러스터러 생성
+//마커 클러스터링 적용하는 코드.
 var clusterer = new kakao.maps.MarkerClusterer({
+  markers:markers,
   map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체 
   averageCenter: true, // 클러스터러에 속한 마커의 평균 위치로 클러스터 마커를 표시합니다
   minLevel: 5 // 클러스터러가 생성되는 최소 지도 레벨
 });
 
-// 클러스터러에 마커들 추가
-clusterer.addMarkers(markers);
-  
+
+    });
+    console.log("마커:",markers);
+   
 
 
     
