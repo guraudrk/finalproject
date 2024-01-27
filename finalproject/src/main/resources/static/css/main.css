@@ -75,9 +75,9 @@ body {
 #map {
   border: 2px solid #000;
   width: 60%; /*너비를 조절한다. 100%이면, 지도가 full로 웹에 보여진다.*/
-  height: 60vh; /*높이를 "*/
+  height: 50vh; /*높이를 "*/
   position: absolute;
-  top: 50%;
+  top: 27%;
   left: 50%;
   transform: translate(-50%, -50%);
 }

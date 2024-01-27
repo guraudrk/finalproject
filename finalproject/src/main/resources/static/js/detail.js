@@ -63,6 +63,10 @@ address1Select.addEventListener('change', function () {
 
 //dto에서 데이터 다 가져오고, 그것을 표현해주는 함수 구현
 async function applyFilterAndShowData(){
+
+//가장 먼저, 결과를 보여줄 배열을 초기화한다. 그래야 확인 버튼을 누를 때 마다 데이터가 초기화된다.
+  filteredData = [];
+
     //  DTO에서 데이터를 가져온다.
     const response = await fetch('/api/getMarkers');
     const data = await response.json();
@@ -127,10 +131,13 @@ console.log('Filtered Data:', filteredData);
 
 
 // 필터링된 데이터를 테이블에 추가한다. 만약, 데이터가 없다면, 함수를 따로 실행시키지는 않고, 경고 메시지가 뜬다.
-if(filteredData.length>0)
-{renderFilteredData();}
-else{
+if(filteredData.length>0){
+  renderFilteredData();
+  alert("데이터가 "+filteredData.length+"건 생성되었습니다.");
+}
+else if(filteredData.length==0){
   alert("조건에 맞는 데이터가 없습니다.");
+  renderFilteredData();
 }
 
   }

@@ -45,8 +45,8 @@ body {
 
   #filtered-data-container {
     position: absolute;
-    top: 80px; /* 조절 가능한 값 */
-    left: 400px; /* filter-container의 너비만큼 떨어진 위치 */
+    top: 80px;
+    left: 400px;
     background-color: #ffffff;
     border: 2px solid #000;
     padding: 20px;
@@ -54,23 +54,22 @@ body {
     font-weight: bold;
     z-index: 100;
     border-radius: 8px;
-}
-
-#filtered-data-table {
-    width: 100%;
+    width: 1000px; /* 너비를 고정 */
+    margin-top:30px;
+    overflow: auto; /* 내용이 넘치면 스크롤 표시 */
 }
 
 #filtered-data-table th,
 #filtered-data-table td {
     padding: 10px;
     text-align: center;
-    border-bottom: 1px solid #ddd; /* 테이블 행 구분선 */
+    height:50px;
+    border-bottom: 1px solid #ddd;
+    width: calc(100% / 8); /* 셀 너비를 테이블 너비의 1/8로 설정 */
 }
 
 #filtered-data-table th {
-    background-color: #f2f2f2; /* 테이블 헤더 배경색 */
-    width: calc(100% / 8); /* 테이블 너비를 열의 수로 나눈 값으로 설정 */
-
+    background-color: #f2f2f2;
 }
   
   .my-location-button {

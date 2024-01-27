@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#000000" />
     <title>지자체메인</title>
-    <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=0db590807cb08a226ef449271cc2660f&libraries=services"></script>
+    <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=0db590807cb08a226ef449271cc2660f&libraries=clusterer,services"></script>
 
     <link th:href="@{/static/css/goofficer.css}" rel="stylesheet"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat%3A400%2C600%2C700"/>
@@ -58,6 +58,7 @@
     
         <button id="clear-markers-button">마커 지우기</button>
         <button id="apply-button" onclick="applyFilter()">확인</button>
+        
     </div>
     <div id="map" style="width: 50%; height: 60vh;"></div>
     <script th:inline="javascript">

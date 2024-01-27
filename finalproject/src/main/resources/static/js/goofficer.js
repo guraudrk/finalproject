@@ -174,7 +174,7 @@ function clearMarkers() {
    // 내 위치 마커 이미지 정의
    var myLocationImage = new kakao.maps.MarkerImage(
     'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/asset-5-1Xi.png',
-    new kakao.maps.Size(30, 30), // 마커 이미지 크기
+    new kakao.maps.Size(20, 20), // 마커 이미지 크기
     { offset: new kakao.maps.Point(15, 15) } // 마커 이미지 좌표 설정 (가운데 정렬을 위해)
   );
   //console.log("결과2:",myLocationImage);
@@ -435,6 +435,8 @@ if (item.maintenance !== '완료') {
       image:myLocationImage1,
   });
 
+ 
+
   // 마커 클릭 시 팝업창 열기
   kakao.maps.event.addListener(marker, 'click', function () {
       openPopup(item);
@@ -442,15 +444,33 @@ if (item.maintenance !== '완료') {
 
   // 생성된 마커를 전역 배열에 저장
   markers.push(marker);
-} else {
-  console.log('보수가 완료된 마커는 생성되지 않습니다.');
-}
+  
+} 
+
+
+
     });
+    // 클러스터러 생성
+var clusterer = new kakao.maps.MarkerClusterer({
+  map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체 
+  averageCenter: true, // 클러스터러에 속한 마커의 평균 위치로 클러스터 마커를 표시합니다
+  minLevel: 5 // 클러스터러가 생성되는 최소 지도 레벨
+});
+
+// 클러스터러에 마커들 추가
+clusterer.addMarkers(markers);
+  
 
 
     
+//alert로 마커의 수를 나타내어주는 함수+클러스터러도 생성한다.
+function showMarkerNmumber(){
+  var markerNumber = markers.length;
+  alert("총" +markerNumber+"개의 마커가 생성되었습니다. (보수 완료된 데이터는 생성되지 않습니다.)");
+    
+}
 
-  
+
 
 
 
@@ -623,8 +643,8 @@ function openAdditionalPopup(parentPopup) {
     });
 }
 
-// 팝업을 여는 함수 호출
-//openPopup();
+//'확인'버튼을 누르면, 마커가 몇 개 생성되었는지 알려주는 함수를 호출한다.
+showMarkerNmumber();
 }
 console.log("데이터 상세보기 페이지로 가는 배열:",filteredData1);
   // 필터링된 데이터를 /detail 페이지로 전송하는 함수
