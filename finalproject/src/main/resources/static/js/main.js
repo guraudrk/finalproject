@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
-  
+  //클러스터링을 위해 마커를 저장할 전역변수
+  var markers=[];
   // 전역 변수로 내 위치 마커를 저장하기 위한 변수 선언
   var myLocationMarker;
   
@@ -150,13 +151,20 @@ document.addEventListener('DOMContentLoaded', function () {
           openPopup(item);
         });
 
+        markers.push(marker);
         marker.setMap(map);
       });
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   });
-
+//마커 클러스터링 적용하는 코드.
+var clusterer = new kakao.maps.MarkerClusterer({
+  markers:markers,
+  map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체 
+  averageCenter: true, // 클러스터러에 속한 마커의 평균 위치로 클러스터 마커를 표시합니다
+  minLevel: 5 // 클러스터러가 생성되는 최소 지도 레벨
+});
   // 내 위치 버튼을 눌렀을 때 지도를 내 위치로 이동
   document.querySelector('.my-location-button').addEventListener('click', function () {
     navigator.geolocation.getCurrentPosition(function (position) {
