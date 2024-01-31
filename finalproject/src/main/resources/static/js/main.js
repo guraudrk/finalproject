@@ -17,12 +17,15 @@ document.addEventListener('DOMContentLoaded', function () {
   const maxDistance = 1000;
 
 
+  //내 위치의 위도/경도를 전역변수로 설정
+  var lat1;
+  var lng1;
 
   //여러개의 알림이 있을 경우, queue에 쌓아서 차례대로 알림을 보낸다.
 var speechQueue = [];
 
-   // 사용자의 현재 위치를 확인하고, 각 마커와의 거리를 계산하여 알림을 보내는 함수
-
+ // 전역 범위에서 polyline 변수를 선언하여 초기값을 null로 설정합니다.
+var polyline = null;
 
 function toRadians(degrees) {
   return degrees * Math.PI / 180;
@@ -164,6 +167,21 @@ function toRadians(degrees) {
     .catch((error) => {
       console.error('Error accessing webcam:', error);
     });
+
+      // 사용자의 현재 위치를 확인하고, 각 마커와의 거리를 계산하여 알림을 보내는 함수
+  var destinationlocation;
+
+
+  //목표 위치의 위도, 경도를 저장할 변수
+
+ 
+
+
+
+
+
+   
+
 
   // 디비에서 정보를 가져와서 지도에 마커로 표시해주는 코드
   kakao.maps.load(async () => {
@@ -328,7 +346,8 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
     navigator.geolocation.getCurrentPosition(function (position) {
       var lat = position.coords.latitude;
       var lng = position.coords.longitude;
-
+      lat1 = lat;
+      lng1 = lng;
       map.setCenter(new kakao.maps.LatLng(lat, lng));
        // 기존에 있던 내 위치 마커를 제거
        if (myLocationMarker) {
@@ -346,10 +365,14 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
         map: map,
         image: myLocationImage, // 내 위치 마커 이미지 설정
       });
+      
+
     }, function (error) {
       console.error('Error getting current location:', error);
     });
   });
+
+
 
   //watchPosition() 함수를 사용하면 위치가 변경될 때마다 실시간으로 위치를 업데이트하고 이에 대한 알림을 받을 수 있다. 
   // 위치가 변경될 때마다 해당 위치와 마커 간의 거리를 확인하여 알림을 표시하거나 숨김
@@ -365,10 +388,109 @@ function startWatchingPostion(){
 
 
   // 일정 시간마다 사용자의 위치를 확인하여 알림을 보내는 코드
-setInterval(startWatchingPostion, 30000); // 예시로 10초마다 위치를 확인하도록 설정
+//setInterval(startWatchingPostion, 5000); // 예시로 30초마다 위치를 확인하도록 설정
 //차는 빠르게 달리기 때문에, 경고가 나오는 간격을 길게 조절한다.
 
 
 
+ // 클릭한 위치의 경로를 찾아 polyline로 그리는 함수
+ kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
+  var clickedPosition = mouseEvent.latLng;
 
+  // 내 위치와 클릭한 위치를 출발점과 도착점으로 설정하여 경로 탐색
+  var startPoint = {
+      lat: lat1,
+      lng: lng1
+  };
+  var endPoint = {
+      lat: clickedPosition.getLat(),
+      lng: clickedPosition.getLng()
+  };
+
+   // 이전 polyline 제거
+   if (polyline) {
+    polyline.setMap(null);
+  }
+  // 카카오모빌리티 API를 사용하여 경로 탐색
+  getCarDirection(startPoint, endPoint);
 });
+
+
+
+
+async function getCarDirection(startPoint, endPoint) {
+  //kakao developers에서 발급 받았던 rest_api 키를 받는다.
+const REST_API_KEY = '2f89a5abaeca0fa4f49b6e38e7cc6345';
+// 호출방식의 URL을 입력합니다.
+const url = 'https://apis-navi.kakaomobility.com/v1/directions';
+
+// 출발지(origin), 목적지(destination)의 좌표를 문자열로 변환합니다.
+const origin = `${startPoint.lng},${startPoint.lat}`;
+const destination = `${endPoint.lng},${endPoint.lat}`;
+
+// 요청 헤더를 추가합니다.
+const headers = {
+  Authorization: `KakaoAK ${REST_API_KEY}`,
+  'Content-Type': 'application/json'
+};
+
+// 표3의 요청 파라미터에 필수값을 적어줍니다.
+const queryParams = new URLSearchParams({
+  origin: origin,
+  destination: destination
+});
+
+//이 부분이 get으로 간다.
+const requestUrl = `${url}?${queryParams}`; // 파라미터까지 포함된 전체 URL
+
+try {
+  const response = await fetch(requestUrl, {
+      method: 'GET',
+      headers: headers
+  });
+
+  if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+  }
+
+  const data = await response.json();
+
+  // 경로 데이터가 여기서 사용될 수 있습니다.
+  console.log(data);
+  
+  // 경로를 가져와서 지도에 표시하는 부분을 추가하면 됩니다.
+  displayRouteOnMap(data);
+} catch (error) {
+  console.error('Error:', error);
+}
+}
+function displayRouteOnMap(routeData) {
+  //ployline을 그릴 때의 경로를 저장하는 배열이라고 보면 된다.
+  const linepath=[];
+  console.log("routeData:",routeData);
+  // 경로 데이터 중 필요한 정보를 추출합니다.
+  //밑의 구문이 이해가 안된다면, f12를 눌러서 routeData의 배열 내부를 보면 된다.
+  routeData.routes[0].sections[0].roads.forEach(road => {
+    road.vertexes.forEach((coord, index) => {
+      // 인덱스가 짝수인 경우에만 좌표를 추출하여 LatLng 객체로 변환합니다.
+      if (index % 2 === 0) {
+        const lng = coord; // x 좌표
+        const lat = road.vertexes[index + 1]; // y 좌표
+        linepath.push(new kakao.maps.LatLng(lat, lng));
+      }
+    });
+  });
+  /// Polyline 생성 및 지도에 표시
+ polyline = new kakao.maps.Polyline({
+  path: linepath,
+  strokeWeight: 5,
+  strokeColor: '#000000',
+  strokeOpacity: 0.7,
+  strokeStyle: 'solid'
+}); 
+polyline.setMap(map);
+ 
+}
+});
+
+
