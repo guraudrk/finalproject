@@ -550,7 +550,7 @@ setInterval(startPolly, 10000);
 
 
 //1초 간격으로 내 위치 좌표를 갱신한다.
-setInterval(startWatchingPostion,1000);
+setInterval(startWatchingPostion,100);
 });
 
 
