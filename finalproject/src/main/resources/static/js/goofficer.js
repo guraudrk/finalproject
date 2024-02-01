@@ -146,10 +146,7 @@ function clearMarkers() {
       window.location.href = '/main';
     });
   
-    // 로그아웃 버튼을 누르면 /main으로 이동
-    document.querySelector('.logout-button').addEventListener('click', function () {
-      window.location.href = '/main';
-    });
+   
     // '데이터 상세보기' 버튼을 누르면 /detail으로 이동
     //document.querySelector('#data-details-button').addEventListener('click', function () {
     //    window.location.href = '/detail';
@@ -490,11 +487,20 @@ function showMarkerNmumber(){
 async function openPopup(markerData) {
   // 위도, 경도를 도로명 주소로 변환
   id1=markerData.id;
+
+
+
+    // creationTime을 Date 객체로 파싱
+  const creationDate = new Date(markerData.creationTime);
+
+  // 년/월/일로 포맷팅
+  const formattedDate = `${creationDate.getFullYear()}-${(creationDate.getMonth() + 1).toString().padStart(2, '0')}-${creationDate.getDate().toString().padStart(2, '0')}`;
+
   const address = await convertLatLngToAddress(markerData.lat, markerData.lng);
   var popupContent = `
       <div class="popup-content">
           <img src="${markerData.photoInfo}" width="100" height="250">
-          <p><b>검출날짜:</b> ${markerData.creationTime}</p>
+          <p><b>검출날짜:</b> ${formattedDate}</p>
           <p><b>위치(도로명주소):</b> ${address}</p>
           <p><b>카테고리명:</b> ${markerData.categoryId}</p>
           <p><b>보수상태:</b> ${markerData.maintenance || '미완료'}</p>
@@ -702,10 +708,7 @@ console.log("데이터 상세보기 페이지로 가는 배열:",filteredData1);
       });
     }
   
-  // 데이터 상세보기 클릭 이벤트 리스너 추가
-document.getElementById("data-details-button").addEventListener("click", function() {
-  window.location.href = '/detail';
-});
+
   
     
   

@@ -151,15 +151,21 @@ function renderFilteredData() {
   // 필터링된 데이터를 테이블에 추가
   filteredData.forEach(item => {
     const row = document.createElement("tr");
+
+    // creationTime을 Date 객체로 파싱
+  const creationDate = new Date(item.creationTime);
+
+  // 년/월/일로 포맷팅
+  const formattedDate = `${creationDate.getFullYear()}-${(creationDate.getMonth() + 1).toString().padStart(2, '0')}-${creationDate.getDate().toString().padStart(2, '0')}`;
+
+
     row.innerHTML = `
       <td>${item.address}</td>
       <td>${item.categoryId}</td>
-      <td>${item.completionTime}</td>
-      <td>${item.creationTime}</td>
-      <td>${item.lat}</td>
-      <td>${item.lng}</td>
+      <td>${formattedDate}</td>
       <td>${item.maintenance}</td>
       <td>${item.memberId}</td>
+      <td>${item.completionTime}</td>
     `;
     //행을 추가하는 용도이다.
     tableBody.appendChild(row);

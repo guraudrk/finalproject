@@ -7,20 +7,28 @@
     <meta name="theme-color" content="#000000" />
     <title>지자체메인</title>
     <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=0db590807cb08a226ef449271cc2660f&libraries=clusterer,services"></script>
-
+    <link href="https://cdn.jsdelivr.net/npm/reset-css@5.0.2/reset.min.css" rel="stylesheet">
     <link th:href="@{/static/css/goofficer.css}" rel="stylesheet"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat%3A400%2C600%2C700"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro%3A400%2C600%2C700"/>
 </head>
 <body>
-    <div class="icon-container">ROADs</div>
-    <div class="logout-button">
-         <!-- 모델에 loggedInUser가 있다면 로그인 상태로 간주 -->
-    <a th:if="${loggedInUser != null}" href="/logout">로그아웃</a>
-    <a th:unless="${loggedInUser != null}" href="/login">로그인</a>
+    <div id="nav">
+        <div class="icon-container">ROADs</div>
+
+        <div class="login-button">
+            <!-- 모델에 loggedInUser가 있다면 로그인 상태로 간주 -->
+            <a th:if="${loggedInUser != null}" href="/logout">로그아웃</a>
+            <a th:unless="${loggedInUser != null}" href="/login">로그인</a>
+        </div>
+
+        <ul class="gnb">
+            <li><a href="/main">메인</a></li>
+            <!-- loggedInUser가 null이 아닌 경우에만 보이도록 설정 -->
+            <li th:if="${loggedInUser != null}"><a href="/detail">데이터 상세보기</a></li>
+            <li class="my-location-button">내 위치</li>
+        </ul>
     </div>
-    <div class="my-location-button">내 위치</div>
-    <div id="data-details-button" >데이터 상세보기</div>
     <div id="filter-container">
         <div id="date-filter">
             <label for="start-date">시작 날짜:</label>
@@ -30,8 +38,8 @@
         </div>
     
         <div id="address-filter">
-            <label for="address1">주소1:</label>
             <select id="address1" onchange="updateAddress2Options()">
+                <option value="" selected disabled hidden>주소1을 선택하세요</option>
                 <option value="서울">서울특별시</option>
                 <option value="인천">인천광역시</option>
                 <option value="대전">대전광역시</option>
@@ -50,17 +58,18 @@
                 <option value="제주도">제주도</option>
             </select>
     
-            <label for="address2">주소2:</label>
-            <select id="address2"></select>
+            <select id="address2"placeholder="주소2">
+            <option value="" selected disabled hidden>주소2를 선택하세요</option>
+            </select>
     
             
         </div>
     
-        <button id="clear-markers-button">마커 지우기</button>
-        <button id="apply-button" onclick="applyFilter()">확인</button>
+        <button id="clear-markers-button">초기화</button>
+        <button id="apply-button" onclick="applyFilter()">검색</button>
         
     </div>
-    <div id="map" style="width: 50%; height: 60vh;"></div>
+    <div id="map" style="width:100%; height: calc(100vh - 80px);"></div>
     <script th:inline="javascript">
         // `/goofficer` 페이지에서 아이디를 가져오는 코드
         var loggedInUser = /*[[ ${loggedInUser} ]]*/;

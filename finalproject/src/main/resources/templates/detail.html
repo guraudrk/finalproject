@@ -8,14 +8,23 @@
   <link th:href="@{/static/css/detail.css}" rel="stylesheet"/>
   <title>데이터 상세보기</title>
   <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=0db590807cb08a226ef449271cc2660f&libraries=services"></script>
+  <link href="https://cdn.jsdelivr.net/npm/reset-css@5.0.2/reset.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat%3A400%2C600%2C700"/>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro%3A400%2C600%2C700"/>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div class="icon-container">ROADs</div>
-    <div class="gotoGoofficer">지자체 페이지</div>
+    <div id="nav">
+        <div class="icon-container">ROADs</div>
 
+        
+
+        <ul class="gnb">
+            <li><a href="/main">메인</a></li>
+            <!-- loggedInUser가 null이 아닌 경우에만 보이도록 설정 -->
+            <li th:if="${loggedInUser != null}"><a href="/goofficer">지자체 페이지</a></li>
+        </ul>
+    </div>
     <div id="filter-container">
         <div id="date-filter">
             <label for="start-date">시작 날짜:</label>
@@ -25,8 +34,8 @@
         </div>
     
         <div id="address-filter">
-            <label for="address1">주소1:</label>
             <select id="address1" onchange="updateAddress2Options()">
+                <option value="" selected disabled hidden>주소1을 선택하세요</option>
                 <option value="서울">서울특별시</option>
                 <option value="인천">인천광역시</option>
                 <option value="대전">대전광역시</option>
@@ -45,12 +54,16 @@
                 <option value="제주도">제주도</option>
             </select>
     
-            <label for="address2">주소2:</label>
-            <select id="address2"></select>
+            <select id="address2"placeholder="주소2">
+            <option value="" selected disabled hidden>주소2를 선택하세요</option>
+            </select>
     
             
         </div>
-        <button id="apply-button" onclick="applyFilter()">확인</button>
+    
+        <button id="clear-markers-button">초기화</button>
+        <button id="apply-button" onclick="applyFilter()">검색</button>
+        
     </div>
      <!-- 필터링된 데이터를 표시할 테이블 -->
      <!--테이블이기 때문에, thead,tbody가 있다. -->
@@ -60,12 +73,10 @@
                 <tr>
                     <th>주소</th>
                     <th>카테고리</th>
-                    <th>완료 시간</th>
                     <th>생성 시간</th>
-                    <th>위도</th>
-                    <th>경도</th>
                     <th>유지보수 여부</th>
                     <th>멤버 ID</th>
+                    <th>완료 시간</th>
                 </tr>
             </thead>
             <tbody id="filtered-data-body">

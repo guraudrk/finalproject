@@ -7,6 +7,7 @@
     <meta name="theme-color" content="#000000" />
     <title>메인 화면</title>
     <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=0db590807cb08a226ef449271cc2660f&libraries=clusterer,services"></script>
+    <link href="https://cdn.jsdelivr.net/npm/reset-css@5.0.2/reset.min.css" rel="stylesheet">
     <link th:href="@{/static/css/main.css}" rel="stylesheet"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat%3A400%2C600%2C700"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro%3A400%2C600%2C700"/>
@@ -20,19 +21,29 @@
       });</script>
 </head>
 <body>
-    <div class="icon-container">ROADs</div>
-    <div class="login-button">
-        <!-- 모델에 loggedInUser가 있다면 로그인 상태로 간주 -->
-    <a th:if="${loggedInUser != null}" href="/logout">로그아웃</a>
-    <a th:unless="${loggedInUser != null}" href="/login">로그인</a>
+    <div class="responsive-iframe">
+    <iframe src="http://127.0.0.1:5000/" width="480" height="320" frameborder="0" scrolling="no"></iframe>
     </div>
-    <div class="my-location-button">내 위치</div>
-    <!-- 조건에 따라 보이거나 숨겨질 지자체 페이지 버튼 -->
-    <div th:if="${loggedInUser != null}" class="local-government-button">
-        <a href="/goofficer">지자체 페이지</a>
+    
+    <div id="nav">
+        <div class="icon-container">ROADs</div>
+
+        <div class="login-button">
+            <!-- 모델에 loggedInUser가 있다면 로그인 상태로 간주 -->
+            <a th:if="${loggedInUser != null}" href="/logout">로그아웃</a>
+            <a th:unless="${loggedInUser != null}" href="/login">로그인</a>
+        </div>
+
+        <ul class="gnb">
+            <li><a href="/main">메인</a></li>
+            <!-- loggedInUser가 null이 아닌 경우에만 보이도록 설정 -->
+            <li th:if="${loggedInUser != null}"><a href="/goofficer">지자체 페이지</a></li>
+            <li th:if="${loggedInUser != null}"><a href="/detail">데이터 상세보기</a></li>
+            <li class="my-location-button">내 위치</li>
+        </ul>
     </div>
+    
+  
     <video id="webcam" width="320" height="240" ></video>
-    <div id="map" style="width: 50%; height: 50vh;"></div>
+    <div id="map" style="width:100%; height: calc(100vh - 80px);"></div>
     <script src="/static/js/main.js"></script>
-</body>
-</html>

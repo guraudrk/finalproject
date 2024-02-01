@@ -5,7 +5,8 @@ document.addEventListener('DOMContentLoaded', function () {
   var markers=[];
 
   //음성 인식을 위해 마커들을 저장할 전역변수
-  var markersforaudio=[];
+  //중복을 막기 위해 set을 정의한다.
+  var markersforaudio=new Set();
   // 전역 변수로 내 위치 마커를 저장하기 위한 변수 선언
   var myLocationMarker;
   
@@ -26,6 +27,9 @@ var speechQueue = [];
 
  // 전역 범위에서 polyline 변수를 선언하여 초기값을 null로 설정합니다.
 var polyline = null;
+
+// 음성 재생을 위한 Audio 객체 배열
+var audioQueue = [];
 
 function toRadians(degrees) {
   return degrees * Math.PI / 180;
@@ -225,11 +229,14 @@ async function checkProximityToMarkers() {
     const userLat = position.coords.latitude;
     const userLon = position.coords.longitude;
 
+    // 이전에 추가된 알림 제거
+    speechQueue = [];
+
     for (const markerData of markersforaudio) {
       console.log('lat',markerData.lat);
       const distance = calculateDistance(userLat, userLon, markerData.lat, markerData.lng);
       if (distance <= maxDistance) {
-        const textToSpeech = '근처에 ' + markerData.categoryId + '이(가) 있습니다.';
+        const textToSpeech ='근처에 ' + markerData.categoryId + '이 있습니다.';
         console.log("알림:",textToSpeech);
         // speech를 queue에 추가한다.
         speechQueue.push(textToSpeech);
@@ -242,22 +249,75 @@ async function checkProximityToMarkers() {
   });
  
 }
+
+
+//실시간으로 내 위치를 업데이터 해 주는 함수.(단, 내 위치 버튼을 눌러서 내 위치를 1번은 불러와야 한다.)
+async function updatemylocation(){
+  navigator.geolocation.getCurrentPosition(async function (position) {
+    //실제 유저의 위도, 경로도를 알려준다.
+    const userLat = position.coords.latitude;
+    const userLon = position.coords.longitude;
+
+    // 내 위치 마커를 업데이트
+    if (myLocationMarker) {
+      myLocationMarker.setPosition(new kakao.maps.LatLng(userLat, userLon));
+    } else {
+      // 내 위치 마커가 없을 경우 새로 생성
+      myLocationMarker = new kakao.maps.Marker({
+        position: new kakao.maps.LatLng(userLat, userLon),
+        map: map,
+        // 내 위치 마커 이미지 설정 등
+      });
+    }
+    console.log("marker location update complete.");
+
+    //지도를 내 위치로 이동
+    map.setCenter(new kakao.maps.LatLng(userLat,userLon));
+
+
+    
+  });
+}
+// watchPosition() 함수를 사용하여 위치가 변경될 때마다 내 위치를 감시하고 이벤트를 처리
+function startWatchingPostion(){
+  //watchPosition 함수는 사용자의 위치를 지속적으로 감시한다. 
+  //
+  navigator.geolocation.watchPosition(function (position) {
+    updatemylocation();
+  }, function (error) {
+    console.error('Error getting current location:', error);
+  });
+}
+
+//비동기 함수로 처리하기.
+async function startPolly(){
+  checkProximityToMarkers();
+}
+
   // S3에서 오디오 파일을 가져와서 재생하는 함수
 async function playSpeechFromS3(textToSpeech) {
 // S3에서 오디오 파일을 가져오기 위한 매개변수 설정
-try {
-  // 텍스트를 Amazon Polly를 사용하여 음성으로 변환
-  const audioUrl = await generateSpeechWithPolly(textToSpeech);
+return new Promise(async (resolve, reject) => {
+  try {
+    const audioUrl = await generateSpeechWithPolly(textToSpeech);
 
-  // 오디오 재생을 위한 Audio 객체 생성
-  const audio = new Audio(audioUrl);
-  // 오디오 재생
-  audio.play();
-   //음성 기능 생성 성공 시 console.log 생성
-   console.log("audio text make complete.");
-} catch (error) {
-  console.error('Error playing audio from Polly:', error);
-}
+
+
+    const audio = new Audio(audioUrl);
+    audio.play();
+    audio.onended = () => {
+      resolve(); // 음성 재생이 끝나면 resolve 호출
+    };
+    audio.onerror = (error) => {
+      reject(error); // 오류 발생 시 reject 호출
+    };
+    // 음성 재생을 위해 audioQueue에 추가
+    audioQueue.push(audio);
+  } catch (error) {
+    console.error('Error playing audio from Polly:', error);
+    reject(error);
+  }
+});
 }
 
 // Amazon Polly API를 사용하여 텍스트를 음성으로 변환하는 함수
@@ -288,28 +348,24 @@ async function generateSpeechWithPolly(text) {
 
 //차례대로 알림을 보내는 함수.
 async function playSpeechQueue(){
-  //대기열이 비어 있으면 함수 종료
-  if(speechQueue.length===0){
-    return;
-  }
-
-  //대기열의 첫번째 알림을 가져온다.(사실 그냥 텍스트로 되어 있는 것을 가져온 것일 뿐이다. 텍스트를 변환해주는 것은 밑의 함수들이 해주지!)
+ // 대기열에 음성이 있고, 현재 재생 중인 오디오가 없으면 다음 오디오 재생
+ if (speechQueue.length > 0) {
+  // 대기열의 첫 번째 알림을 가져온다.
   const textToSpeech = speechQueue[0];
-  try{
-    //s3에서 mp3파일을 가져와서 재생.
+  try {
+    // s3에서 mp3파일을 가져와서 재생.
     await playSpeechFromS3(textToSpeech);
-  }catch (error) {
+  } catch (error) {
     console.error('Error playing speech:', error);
   }
-
-  // 대기열에서 재생된 알림 제거
+  // 재생 완료된 알림을 대기열에서 제거
   speechQueue.shift();
-
-  // 재생이 완료된 후 다음 알림을 대기열에서 재생
-  //이렇게 무한 루프 식으로 하나하나 재생하다가, length가 0이 되면 return을 한다.
-  playSpeechQueue();
-
+  console.log("audio textmaking completed.");
+  // 재생이 끝나면 다음 알림 재생을 위해 다시 호출
+  //playSpeechQueue();
 }
+}
+
 
 
 
@@ -346,6 +402,9 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
     navigator.geolocation.getCurrentPosition(function (position) {
       var lat = position.coords.latitude;
       var lng = position.coords.longitude;
+
+
+
       lat1 = lat;
       lng1 = lng;
       map.setCenter(new kakao.maps.LatLng(lat, lng));
@@ -374,22 +433,11 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
 
 
 
-  //watchPosition() 함수를 사용하면 위치가 변경될 때마다 실시간으로 위치를 업데이트하고 이에 대한 알림을 받을 수 있다. 
-  // 위치가 변경될 때마다 해당 위치와 마커 간의 거리를 확인하여 알림을 표시하거나 숨김
-function startWatchingPostion(){
-  navigator.geolocation.watchPosition(function (position) {
-  
-    checkProximityToMarkers();
-  }, function (error) {
-    console.error('Error getting current location:', error);
-  });
-}
+
   
 
 
-  // 일정 시간마다 사용자의 위치를 확인하여 알림을 보내는 코드
-//setInterval(startWatchingPostion, 5000); // 예시로 30초마다 위치를 확인하도록 설정
-//차는 빠르게 달리기 때문에, 경고가 나오는 간격을 길게 조절한다.
+
 
 
 
@@ -491,6 +539,18 @@ function displayRouteOnMap(routeData) {
 polyline.setMap(map);
  
 }
+
+
+
+
+
+/*setInterval을 통해서 시간 간격을 두고 함수를 지속적으로 호출한다.*/ 
+setInterval(startPolly, 10000);
+//차는 빠르게 달리기 때문에, 경고가 나오는 간격을 길게 조절한다.
+
+
+//1초 간격으로 내 위치 좌표를 갱신한다.
+setInterval(startWatchingPostion,1000);
 });
 
 
