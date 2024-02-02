@@ -175,4 +175,6 @@ public class controllerclass {
         return memberEntityOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    
+
 }

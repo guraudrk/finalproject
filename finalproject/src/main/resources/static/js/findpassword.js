@@ -23,3 +23,7 @@ function findIdByEmail() {
       }
     });
   }
+   //roads 클릭 시 메인 페이지로 이동
+ document.querySelector('.roads-v5S').addEventListener('click', function() {
+  window.location.href = '/main';
+});

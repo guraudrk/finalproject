@@ -7,7 +7,10 @@ document.getElementById("id").addEventListener("input", checkId);
 document.getElementById("password").addEventListener("input", checkPassword);
 document.getElementById("passwordconfirm").addEventListener("input", checkPasswordConfirmation);
 
-
+ //roads 클릭 시 메인 페이지로 이동
+ document.querySelector('.roads-v8C').addEventListener('click', function() {
+    window.location.href = '/main';
+  });
 
 
 // id를 체크하고 중복 여부를 서버에 요청하는 함수

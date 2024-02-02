@@ -137,6 +137,7 @@ body {
   cursor:pointer;
 }
 .item--brL .frame-3851-Fvt .frame-830-aVJ .button-jTz {
+  margin-top:10px;
   width: 100%;
   height: 5rem;
   font-size: 1.6rem;
@@ -162,4 +163,7 @@ body {
 
 .button-w2L:hover{
   background-color: #50bcdf;
+}
+.roads-dgY:hover{
+  cursor:pointer;
 }

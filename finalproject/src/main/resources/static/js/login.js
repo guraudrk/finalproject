@@ -1,9 +1,12 @@
 document.addEventListener('DOMContentLoaded', function() {
     
 
-
- 
+  //roads 클릭 시 메인 페이지로 이동
+  document.querySelector('.roads-dgY').addEventListener('click', function() {
+    window.location.href = '/main';
+  });
   
+
   // ID/PW 찾기 버튼 클릭 시 이벤트
 document.querySelector('.text-field-7oz').addEventListener('click', function() {
     window.location.href = '/findpassword';

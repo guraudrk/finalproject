@@ -9,11 +9,10 @@ let filteredData = [];
 돔트리가 다 만들어진 후에 돔에 접근이 가능하기때문에, 
 돔이 생성되기전 돔을 조작하는 자바스크립트 코드가 실행되어 원하지 않는 결과를 내는것을 막을 수 있다.
 */
-
-//버튼 누르면, goofficer 페이지로 이동
-document.querySelector('.gotoGoofficer').addEventListener('click', function () {
-    window.location.href = '/goofficer';
-  });
+// ROADs를 누르면 메인 페이지로 리다이렉트
+document.querySelector('.icon-container').addEventListener('click', function () {
+  window.location.href = '/main';
+});
 //메인 페이지로 이동하는 것도.
 document.querySelector('.icon-container').addEventListener('click', function () {
     window.location.href = '/main';
@@ -154,9 +153,11 @@ function renderFilteredData() {
 
     // creationTime을 Date 객체로 파싱
   const creationDate = new Date(item.creationTime);
-
+  //completetime을 date 객체로 파싱
+  const completionTime = new Date(item.completionTime);
   // 년/월/일로 포맷팅
   const formattedDate = `${creationDate.getFullYear()}-${(creationDate.getMonth() + 1).toString().padStart(2, '0')}-${creationDate.getDate().toString().padStart(2, '0')}`;
+  const changednDate = `${completionTime.getFullYear()}-${(completionTime.getMonth() + 1).toString().padStart(2, '0')}-${completionTime.getDate().toString().padStart(2, '0')}`;
 
 
     row.innerHTML = `
@@ -165,7 +166,7 @@ function renderFilteredData() {
       <td>${formattedDate}</td>
       <td>${item.maintenance}</td>
       <td>${item.memberId}</td>
-      <td>${item.completionTime}</td>
+      <td>${changednDate}</td>
     `;
     //행을 추가하는 용도이다.
     tableBody.appendChild(row);

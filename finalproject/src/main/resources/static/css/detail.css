@@ -43,10 +43,10 @@ body {
   
   .icon-container {
     font-weight: bold;
-    font-size: 40px;
-    text-align: center;
-    cursor: pointer;
-    color: #fff;
+      font-size: 40px;
+      text-align: center;
+      cursor: pointer;
+      color: #fff;
   }
   
   .gotoGoofficer {
@@ -67,7 +67,8 @@ body {
 
   #filtered-data-container {
     position: absolute;
-    top: 50px; /* filter-container 아래에 10px 간격을 두고 배치 */    left: 400px;
+    left: 20%; /* 화면 왼쪽에서 절반 지점으로 이동 */
+    top: 150px; /* filter-container 아래에 10px 간격을 두고 배치 */   
     background-color: #ffffff;
     border: 2px solid #000;
     padding: 20px;
@@ -75,7 +76,7 @@ body {
     font-weight: bold;
     z-index: 100;
     border-radius: 8px;
-    width: 1000px; /* 너비를 고정 */
+    width: 900px;  
     margin-top:30px;
     overflow: auto; /* 내용이 넘치면 스크롤 표시 */
 }

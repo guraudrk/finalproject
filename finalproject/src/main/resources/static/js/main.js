@@ -1,6 +1,10 @@
 
 
 document.addEventListener('DOMContentLoaded', function () {
+  
+  
+  
+  
   //클러스터링을 위해 마커를 저장할 전역변수
   var markers=[];
 
@@ -240,10 +244,11 @@ async function checkProximityToMarkers() {
         console.log("알림:",textToSpeech);
         // speech를 queue에 추가한다.
         speechQueue.push(textToSpeech);
+        console.log("push완료");
       }
     }
-    // 대기열에 추가된 알림이 있다면 재생
-  playSpeechQueue();
+    // 대기열에 추가된 알림이 있다면 재생 await으로 감싼다.
+  await playSpeechQueue();
   }, function (error) {
     console.error('Error getting current location:', error);
   });
@@ -255,24 +260,32 @@ async function checkProximityToMarkers() {
 async function updatemylocation(){
   navigator.geolocation.getCurrentPosition(async function (position) {
     //실제 유저의 위도, 경로도를 알려준다.
-    const userLat = position.coords.latitude;
-    const userLon = position.coords.longitude;
+     lat1 = position.coords.latitude;
+     lng1 = position.coords.longitude;
 
     // 내 위치 마커를 업데이트
     if (myLocationMarker) {
-      myLocationMarker.setPosition(new kakao.maps.LatLng(userLat, userLon));
+      myLocationMarker.setPosition(new kakao.maps.LatLng(lat1, lng1));
+      map.setCenter(new kakao.maps.LatLng(lat1,lng1));
     } else {
+       // 내 위치 마커 이미지 정의
+ var myLocationImage = new kakao.maps.MarkerImage(
+  'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/asset-5-1Xi.png', 
+  new kakao.maps.Size(20, 20), // 마커 이미지 크기
+  { offset: new kakao.maps.Point(15, 15) } // 마커 이미지 좌표 설정 (가운데 정렬을 위해)
+);
       // 내 위치 마커가 없을 경우 새로 생성
       myLocationMarker = new kakao.maps.Marker({
-        position: new kakao.maps.LatLng(userLat, userLon),
+        position: new kakao.maps.LatLng(lat1, lng1),
         map: map,
+        image: myLocationImage,
         // 내 위치 마커 이미지 설정 등
       });
     }
     console.log("marker location update complete.");
 
     //지도를 내 위치로 이동
-    map.setCenter(new kakao.maps.LatLng(userLat,userLon));
+    //map.setCenter(new kakao.maps.LatLng(userLat,userLon));
 
 
     
@@ -296,17 +309,16 @@ async function startPolly(){
 
   // S3에서 오디오 파일을 가져와서 재생하는 함수
 async function playSpeechFromS3(textToSpeech) {
-// S3에서 오디오 파일을 가져오기 위한 매개변수 설정
-return new Promise(async (resolve, reject) => {
+ // S3에서 오디오 파일을 가져오기 위한 매개변수 설정
+ return new Promise(async (resolve, reject) => {
   try {
     const audioUrl = await generateSpeechWithPolly(textToSpeech);
-
-
 
     const audio = new Audio(audioUrl);
     audio.play();
     audio.onended = () => {
       resolve(); // 음성 재생이 끝나면 resolve 호출
+      playSpeechQueue(); // 재생이 끝나면 다음 알림 재생을 위해 호출. 그래야 순서대로 음성이 재생된다.
     };
     audio.onerror = (error) => {
       reject(error); // 오류 발생 시 reject 호출
@@ -551,6 +563,9 @@ setInterval(startPolly, 10000);
 
 //1초 간격으로 내 위치 좌표를 갱신한다.
 setInterval(startWatchingPostion,100);
+
+
+
 });
 
 
