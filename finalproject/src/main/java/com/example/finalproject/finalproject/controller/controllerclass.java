@@ -84,7 +84,7 @@ public class controllerclass {
 
                 // 리다이렉트 URL과 함께 성공 메시지 전달
                 attributes.addFlashAttribute("successMessage", "로그인에 성공했습니다.");
-                return "redirect:/main";
+                return "redirect:/goofficer";
             } else {
                 // 로그인 실패 시 리다이렉트 URL과 함께 실패 메시지 전달
                 attributes.addFlashAttribute("errorMessage", "아이디 또는 비밀번호가 올바르지 않습니다.");
