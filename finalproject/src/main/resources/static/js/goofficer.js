@@ -171,7 +171,7 @@ function clearMarkers() {
    // 내 위치 마커 이미지 정의
    var myLocationImage = new kakao.maps.MarkerImage(
     'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/free-icon-gps-navigation-5142952.png',
-    new kakao.maps.Size(25, 25), // 마커 이미지 크기
+    new kakao.maps.Size(45, 45), // 마커 이미지 크기
     { offset: new kakao.maps.Point(15, 15) } // 마커 이미지 좌표 설정 (가운데 정렬을 위해)
   );
   //console.log("결과2:",myLocationImage);
