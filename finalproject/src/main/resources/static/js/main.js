@@ -75,7 +75,10 @@ function toRadians(degrees) {
         <p><b>도로명주소:</b> ${address}</p>
         <p><b>카테고리명:</b> ${markerData.categoryId}</p>
       </div>
-      <div class="popup-close-btn">확인</div>
+      <div class="popup-close-btn" style="background-color: #3498db;font-family: 'Poppins', 'Source Sans Pro';
+      border: 2px solid #000;
+      font-weight: bold;
+      cursor: pointer;">확인</div>
     `;
 
     //새로운 div 엘리먼트를 생성한다.
@@ -270,7 +273,7 @@ async function updatemylocation(){
     } else {
        // 내 위치 마커 이미지 정의
  var myLocationImage = new kakao.maps.MarkerImage(
-  'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/asset-5-1Xi.png', 
+  'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/43-430135_circle-hd-png-download-removebg-preview.png', 
   new kakao.maps.Size(20, 20), // 마커 이미지 크기
   { offset: new kakao.maps.Point(15, 15) } // 마커 이미지 좌표 설정 (가운데 정렬을 위해)
 );
@@ -426,7 +429,7 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
       }
  // 내 위치 마커 이미지 정의
  var myLocationImage = new kakao.maps.MarkerImage(
-  'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/asset-5-1Xi.png', 
+  'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/43-430135_circle-hd-png-download-removebg-preview.png', 
   new kakao.maps.Size(20, 20), // 마커 이미지 크기
   { offset: new kakao.maps.Point(15, 15) } // 마커 이미지 좌표 설정 (가운데 정렬을 위해)
 );
@@ -544,7 +547,7 @@ function displayRouteOnMap(routeData) {
  polyline = new kakao.maps.Polyline({
   path: linepath,
   strokeWeight: 5,
-  strokeColor: '#000000',
+  strokeColor: '#ff0000',
   strokeOpacity: 0.7,
   strokeStyle: 'solid'
 }); 
@@ -557,15 +560,70 @@ polyline.setMap(map);
 
 
 /*setInterval을 통해서 시간 간격을 두고 함수를 지속적으로 호출한다.*/ 
-setInterval(startPolly, 10000);
+//setInterval(startPolly, 10000);
 //차는 빠르게 달리기 때문에, 경고가 나오는 간격을 길게 조절한다.
 
 
 //1초 간격으로 내 위치 좌표를 갱신한다.
-setInterval(startWatchingPostion,100);
+//setInterval(startWatchingPostion,100);
 
+/*이 부분은 마커가 이동하는 것을 구현하는 코드 부분이다.*/
+var movingcar;
 
+//위도와 경도의 배열을 생성(여기에 위도,경도를 넣는다.)
+var latarray=[37.48353777832766,37.48363010124466,37.48376075824257,37.48386887354988,37.483992753719754,37.48412789371688,37.48426979676771,37.48442749496761,37.48449736978076];
+var lngarray=[126.88494810217033,126.88491686775933,126.88492797386257,126.88492215478591,126.88491348487544,126.88490197102232,126.88489610004352,126.88491847132988,126.88496641728375];
 
+//배열의 인덱스를 추적
+var currentindex=0;
+
+function movemarker(){
+  // 배열에서 현재 인덱스에 해당하는 위도와 경도를 가져옴
+  const newLat = latarray[currentindex];
+  const newLng = lngarray[currentindex];
+if(currentindex<latarray.length){
+
+    // 내 위치 마커 이미지 정의
+ var myLocationImage = new kakao.maps.MarkerImage(
+  'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/43-430135_circle-hd-png-download-removebg-preview.png', 
+  new kakao.maps.Size(20, 20), // 마커 이미지 크기
+  { offset: new kakao.maps.Point(15, 15) } // 마커 이미지 좌표 설정 (가운데 정렬을 위해)
+);
+   // 새로운 좌표로 마커 이동
+   if (movingcar) {
+    movingcar.setPosition(new kakao.maps.Coords(newLat, newLng));
+    map.setCenter(new kakao.maps.LatLng(newLat,newLng));
+// 마커 객체가 없으면 새로 생성
+movingcar = new kakao.maps.Marker({
+  position: new kakao.maps.LatLng(newLat, newLng),
+  map: map,  // map 객체가 이미 선언되어 있어야 함
+  image:myLocationImage,
+});
+  } else {
+  
+      // 마커 객체가 없으면 새로 생성
+      movingcar = new kakao.maps.Marker({
+          position: new kakao.maps.LatLng(newLat, newLng),
+          map: map,  // map 객체가 이미 선언되어 있어야 함
+          image:myLocationImage,
+      });
+  }
+
+  // 다음 인덱스로 이동
+  currentindex++;
+}
+else{
+  console.log("마커 이동이 끝났습니다.");
+  return;
+}
+ 
+  
+
+}
+/*마커 이동 끝!*/ 
+
+//1초 간격으로 movemarker를 생성한다.
+setInterval(movemarker,1000);
 });
 
 

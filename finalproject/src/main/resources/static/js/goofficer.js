@@ -170,7 +170,7 @@ function clearMarkers() {
         }
    // 내 위치 마커 이미지 정의
    var myLocationImage = new kakao.maps.MarkerImage(
-    'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/asset-5-1Xi.png',
+    'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/43-430135_circle-hd-png-download-removebg-preview.png',
     new kakao.maps.Size(20, 20), // 마커 이미지 크기
     { offset: new kakao.maps.Point(15, 15) } // 마커 이미지 좌표 설정 (가운데 정렬을 위해)
   );
@@ -505,7 +505,10 @@ async function openPopup(markerData) {
           <p><b>카테고리명:</b> ${markerData.categoryId}</p>
           <p><b>보수상태:</b> ${markerData.maintenance || '미완료'}</p>
       </div>
-      <div class="popup-close-btn">수정</div>
+      <div class="popup-close-btn" style="background-color: #3498db;font-family: 'Poppins', 'Source Sans Pro';
+      border: 2px solid #000;
+      font-weight: bold;
+      cursor: pointer;"">수정</div>
   `;
 
   //새로운 div 엘리먼트를 생성한다.

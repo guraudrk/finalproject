@@ -67,7 +67,8 @@ body {
 
   #filtered-data-container {
     position: absolute;
-    left: 20%; /* 화면 왼쪽에서 절반 지점으로 이동 */
+    left: 40px; 
+    right:40px;
     top: 150px; /* filter-container 아래에 10px 간격을 두고 배치 */   
     background-color: #ffffff;
     border: 2px solid #000;
@@ -76,9 +77,13 @@ body {
     font-weight: bold;
     z-index: 100;
     border-radius: 8px;
-    width: 900px;  
+    width: 1400px;  
     margin-top:30px;
     overflow: auto; /* 내용이 넘치면 스크롤 표시 */
+}
+
+#filtered-data-table{
+  width:1400px;
 }
 
 #filtered-data-table th,
@@ -87,7 +92,9 @@ body {
     text-align: center;
     height:50px;
     border-bottom: 1px solid #ddd;
-    width: calc(100% / 8); /* 셀 너비를 테이블 너비의 1/8로 설정 */
+    width: calc(100% / 6); /* 셀 너비를 테이블 너비의 1/8로 설정 */
+    vertical-align: middle; /* 텍스트를 수직 중앙으로 정렬 */
+
 }
 
 #filtered-data-table th {
@@ -188,6 +195,12 @@ body {
     cursor: pointer;
     
   
+  }
+
+  /*실제로 데이터를 보여주는 부분.*/
+  #filtered-data-body{
+    vertical-align: middle; /* 텍스트를 수직 중앙으로 정렬 */
+
   }
 
  /* 데이터 상세보기 버튼의 css */

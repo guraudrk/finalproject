@@ -7,7 +7,7 @@
 document.getElementById("id").addEventListener("input", checkId);
 document.getElementById("password").addEventListener("input", checkPassword);
 document.getElementById("passwordconfirm").addEventListener("input", checkPasswordConfirmation);
-
+document.getElementById("email").addEventListener("input",checkEmailFunction);
  //roads 클릭 시 메인 페이지로 이동
  document.querySelector('.roads-v8C').addEventListener('click', function() {
     window.location.href = '/main';
@@ -94,8 +94,40 @@ function checkPasswordConfirmation() {
 //이메일 중복을 확인하는 함수
 
 function checkEmailFunction(){
-    var email= document.getElementById("email").value;
-    
+    var email= String(document.getElementById("email").value);
+    var emailMessage = document.getElementById("emailMessage");
+
+    //입력값이 비어 있는 경우에도 빨간색 알림을 띄운다.
+    //trim은 좌우 공백을 제거한 것이다.
+    if(email.trim()===""){
+        emailMessage.style.color="red";
+        emailMessage.innerHTML="이메일을 입력해주세요.";
+        return;
+    }
+     //ajax를 통해 디비와 통신한다. 이메일 값이 있는지 없는지 통신하는 것이다.
+     $.ajax({
+        type:"post",
+        url:"http://localhost:8090/member/emailcheck",
+        data:{
+          "email":email
+        },
+        
+        success:function(res){
+          console.log("요청성공",res);
+          if(res==="ok"){
+            emailMessage.style.color = "green";
+            emailMessage.innerHTML="사용 가능한 이메일입니다.";
+          } else {
+            emailMessage.style.color = "red";
+            emailMessage.innerHTML="이미 사용중인 이메일입니다.";
+          }
+        },
+        error:function(err){
+          console.log("에러발생",err);
+         
+        }
+      });
+
 }
 
 
@@ -105,18 +137,19 @@ async function register() {
     var id = document.getElementById("id").value;
     var password = document.getElementById("password").value;
     var email = document.getElementById("email").value;
-
+    
     // 위에서 정의한 함수들을 여기서 실행한다.
     checkId();
     checkPassword();
     checkPasswordConfirmation();
+    checkEmailFunction();
 
     var idMessage = document.getElementById("idMessage").innerText;
     var passwordMessage = document.getElementById("passwordMessage").innerText;
     var passwordConfirmMessage = document.getElementById("passwordConfirmMessage").innerText;
-
+    var emailMessage = document.getElementById("emailMessage").innerText;
     // 조건을 만족하지 않으면, 회원가입 요청이 보내지지 않음.
-    if (idMessage === "생성 가능한 id입니다." && passwordMessage === "비밀번호 체크가 완료되었습니다." && passwordConfirmMessage === "일치합니다.") {
+    if (idMessage === "생성 가능한 id입니다." && passwordMessage === "비밀번호 체크가 완료되었습니다." && passwordConfirmMessage === "일치합니다."&& emailMessage === "사용 가능한 이메일입니다.") {
         try {
             // 데이터를 JSON 형태로 변환
             var data = {
@@ -126,7 +159,7 @@ async function register() {
             };
 
             // 서버로 데이터 전송
-            //data들을 json으로 변환해서 서버에 전송해야 한다.
+            //data들을 json으로 변환해서 서버에 전송해야 한다. 전송 type은 post이다.
             $.ajax({
                 type: "POST",
                 url: "/signup",

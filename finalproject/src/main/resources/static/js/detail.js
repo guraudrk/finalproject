@@ -157,16 +157,23 @@ function renderFilteredData() {
   const completionTime = new Date(item.completionTime);
   // 년/월/일로 포맷팅
   const formattedDate = `${creationDate.getFullYear()}-${(creationDate.getMonth() + 1).toString().padStart(2, '0')}-${creationDate.getDate().toString().padStart(2, '0')}`;
-  const changednDate = `${completionTime.getFullYear()}-${(completionTime.getMonth() + 1).toString().padStart(2, '0')}-${completionTime.getDate().toString().padStart(2, '0')}`;
+  
+  //1970-01-01이면 null로 출력한다.
+  const changedDate = completionTime && completionTime.getTime() !== 0 ? 
+  `${completionTime.getFullYear()}-${(completionTime.getMonth() + 1).toString().padStart(2, '0')}-${completionTime.getDate().toString().padStart(2, '0')}` 
+  : null;  
+  const maintenanceStatus = item.maintenance ? item.maintenance : '미완료'; // maintenance가 null이면 '미완료'로 설정
 
+  //유지 보수 여부가 'null'이면 '미완료'로 바꾸기
+  
 
     row.innerHTML = `
       <td>${item.address}</td>
       <td>${item.categoryId}</td>
       <td>${formattedDate}</td>
-      <td>${item.maintenance}</td>
+      <td>${maintenanceStatus}</td>
       <td>${item.memberId}</td>
-      <td>${changednDate}</td>
+      <td>${changedDate}</td>
     `;
     //행을 추가하는 용도이다.
     tableBody.appendChild(row);
@@ -251,4 +258,6 @@ function addOptions(selectElement, options) {
       option.value = options[i];
       selectElement.add(option);
   }
+
+
 }

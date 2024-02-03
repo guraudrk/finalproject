@@ -142,11 +142,6 @@ public class controllerclass {
         return "findpassword";
     }
 
-    @GetMapping("/changepassword") // 비밀번호 변경 페이지로 이동하는 컨트롤러.
-    public String gochangepassword() {
-        return "changepassword";
-    }
-
     // id중복 체크를 하기 위한 controller 코드.
     // service의 idCheck을 통해 중복된 id check을 한다.
     // 데이터를 requestparam을 통해 받아온다.
@@ -154,19 +149,21 @@ public class controllerclass {
     @ResponseBody
     public String idCheck(@RequestParam("memberId") String memberId) {
 
-        //아이디를 디비에서 체크하기 위해 memberservice에서 함수를 만든다.
+        // 아이디를 디비에서 체크하기 위해 memberservice에서 함수를 만든다.
         String checkResult = memberService.idCheck(memberId);
 
         return checkResult;
 
     }
 
-    @PostMapping("email/check")
+    // 이메일 중복 체크를 하기 위한 controller 코드이다.
+    @PostMapping("member/emailcheck")
     @ResponseBody
-    public String emailCheck(@RequestParam("email")String email){
+    public String emailCheck(@RequestParam("email") String email) {
 
-        //이메일을 디비에서 체크하기 위해 memberservice에서 함수를 만든다.
+        // 이메일을 디비에서 체크하기 위해 memberservice에서 함수를 만든다.
         String emailResult = memberService.emailCheck(email);
+        return emailResult;
     }
 
     // 이메일로 아이디 찾기 요청 처리
@@ -182,7 +179,5 @@ public class controllerclass {
         Optional<MemberEntity> memberEntityOptional = memberService.findPasswordById(memberId);
         return memberEntityOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
-
-    
 
 }
