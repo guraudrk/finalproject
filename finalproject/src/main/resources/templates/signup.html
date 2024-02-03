@@ -7,6 +7,7 @@
   <meta name="theme-color" content="#000000" />
   <link th:href="@{/static/css/signup.css}" rel="stylesheet"/>
   <title>회원가입</title>
+  <!--이 stylesheet을 통해 텍스트의 스타일을 더 세련되게 한다.-->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat%3A400%2C600%2C700"/>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro%3A400%2C600%2C700"/>
   <script
@@ -23,12 +24,13 @@
     </div>
     <div class="frame-830-Msi">
       
-      <input id="id" type="text" placeholder="영문 및 숫자 4자 이상" class="text-field-oYg" onblur="checkId()"></input>
+      <!--아이디/비밀번호/이메일/비밀번호확인 등의 input,span -->
+      <input id="id" type="text" placeholder="영문 및 숫자 8자 이상" class="text-field-oYg" onblur="checkId()"></input>
       <span id="idMessage" class="validation-message"></span>
-      
       <input id="password" type="password" placeholder="PW 영문+숫자+특수문자 8~15자 이내" class="text-field-oYg" onblur="checkPassword()"></input>
       <span id="passwordMessage" class="validation-message"></span>
       <input id="email" type="text" placeholder="이메일 주소 입력" class="text-field-oYg"></input>
+      <span id="emailMessage" class="vaildation-message"></span>
       <input id="passwordconfirm" type="password" placeholder="비밀번호 확인" class="text-field-oYg" onblur="checkPasswordConfirmation()"></input>
       <span id="passwordConfirmMessage" class="validation-message"></span>
         

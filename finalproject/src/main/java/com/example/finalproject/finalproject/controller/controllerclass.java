@@ -154,11 +154,19 @@ public class controllerclass {
     @ResponseBody
     public String idCheck(@RequestParam("memberId") String memberId) {
 
-        // 이메일을 디비에서 체크하기 위해 memberservice에서 함수를 만든다.
+        //아이디를 디비에서 체크하기 위해 memberservice에서 함수를 만든다.
         String checkResult = memberService.idCheck(memberId);
 
         return checkResult;
 
+    }
+
+    @PostMapping("email/check")
+    @ResponseBody
+    public String emailCheck(@RequestParam("email")String email){
+
+        //이메일을 디비에서 체크하기 위해 memberservice에서 함수를 만든다.
+        String emailResult = memberService.emailCheck(email);
     }
 
     // 이메일로 아이디 찾기 요청 처리

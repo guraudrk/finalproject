@@ -19,6 +19,8 @@ document.querySelector('.text-field-7oz').addEventListener('click', function() {
   
   // 회원가입 버튼 클릭 시 이벤트
   document.querySelector('.button-jTz').addEventListener('click', function() {
+    // 이벤트의 기본 동작을 막음 (기본 동작이 페이지 이동인 경우)
+    event.preventDefault();
     window.location.href = '/signup';
   });
   

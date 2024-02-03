@@ -3,6 +3,7 @@
 
 
 // 입력 필드에 input 이벤트 추가
+//addeventlistener에 'input'은 값이 추가가 될 때, 해당 함수를 적용한다는 의미이다.
 document.getElementById("id").addEventListener("input", checkId);
 document.getElementById("password").addEventListener("input", checkPassword);
 document.getElementById("passwordconfirm").addEventListener("input", checkPasswordConfirmation);
@@ -19,6 +20,23 @@ async function checkId() {
     console.log("입력값:",id);
     var idMessage = document.getElementById("idMessage");
 
+
+    //입력값이 비어 있는 경우에도 빨간색 알림을 띄운다.
+    if(id.trim()===""){
+        idMessage.style.color="red";
+        idMessage.innerHTML="아이디를 입력해주세요.";
+        return;
+    }
+    //id의 길이가 8미만이여도 알림을 띄운다.
+    if(id.length<8){
+
+        idMessage.style.color = "red";
+        idMessage.innerHTML="아이디는 영문 및 숫자 8자 이상입니다.";
+        return;
+    }
+
+
+    //ajax를 통해 디비와 통신한다. 아이디 값이 있는지 없는지 통신하는 것이다.
     $.ajax({
         type:"post",
         url:"http://localhost:8090/member/idcheck",
@@ -71,6 +89,13 @@ function checkPasswordConfirmation() {
         passwordConfirmMessage.innerText = "일치합니다.";
         passwordConfirmMessage.style.color = "green";
     }
+}
+
+//이메일 중복을 확인하는 함수
+
+function checkEmailFunction(){
+    var email= document.getElementById("email").value;
+    
 }
 
 

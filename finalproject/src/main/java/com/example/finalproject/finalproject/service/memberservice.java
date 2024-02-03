@@ -108,7 +108,8 @@ public class memberservice {
     }
 
     public String emailCheck(String memberEmail) {
-        // repository 함수를 통해 사용자가 입력한 이메일 값으로 조회를 한다.
+        // repository 함수를 통해 사용자가 입력한 이메일 값으로 조회를 한다. 이렇게 조회하는 것은 JPA의 repository를 통해
+        // 조회할 수 있다.
         Optional<MemberEntity> byMemberEmail = memberRepository.findByEmail(memberEmail);
         if (byMemberEmail.isPresent()) {
 
@@ -162,8 +163,8 @@ public class memberservice {
         return false;
     }
 
-       // 이메일로 아이디 찾기
-       public Optional<MemberEntity> findIdByEmail(String email) {
+    // 이메일로 아이디 찾기
+    public Optional<MemberEntity> findIdByEmail(String email) {
         return memberRepository.findByEmail(email);
     }
 
