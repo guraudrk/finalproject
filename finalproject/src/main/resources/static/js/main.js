@@ -273,7 +273,7 @@ async function updatemylocation(){
     } else {
        // 내 위치 마커 이미지 정의
  var myLocationImage = new kakao.maps.MarkerImage(
-  'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/43-430135_circle-hd-png-download-removebg-preview.png', 
+  'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/free-icon-gps-navigation-5142952.png', 
   new kakao.maps.Size(20, 20), // 마커 이미지 크기
   { offset: new kakao.maps.Point(15, 15) } // 마커 이미지 좌표 설정 (가운데 정렬을 위해)
 );
@@ -429,7 +429,7 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
       }
  // 내 위치 마커 이미지 정의
  var myLocationImage = new kakao.maps.MarkerImage(
-  'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/43-430135_circle-hd-png-download-removebg-preview.png', 
+  'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/free-icon-gps-navigation-5142952.png', 
   new kakao.maps.Size(20, 20), // 마커 이미지 크기
   { offset: new kakao.maps.Point(15, 15) } // 마커 이미지 좌표 설정 (가운데 정렬을 위해)
 );
@@ -585,7 +585,7 @@ if(currentindex<latarray.length){
 
     // 내 위치 마커 이미지 정의
  var myLocationImage = new kakao.maps.MarkerImage(
-  'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/43-430135_circle-hd-png-download-removebg-preview.png', 
+  'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/free-icon-gps-navigation-5142952.png', 
   new kakao.maps.Size(20, 20), // 마커 이미지 크기
   { offset: new kakao.maps.Point(15, 15) } // 마커 이미지 좌표 설정 (가운데 정렬을 위해)
 );
