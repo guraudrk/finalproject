@@ -92,7 +92,7 @@ body {
     text-align: center;
     height:50px;
     border-bottom: 1px solid #ddd;
-    width: calc(100% / 6); /* 셀 너비를 테이블 너비의 1/8로 설정 */
+    width: calc(100% / 7); /* 셀 너비를 테이블 너비의 1/n로 설정 */
     vertical-align: middle; /* 텍스트를 수직 중앙으로 정렬 */
 
 }

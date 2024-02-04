@@ -174,6 +174,7 @@ function renderFilteredData() {
       <td>${maintenanceStatus}</td>
       <td>${item.memberId}</td>
       <td>${changedDate}</td>
+      <td><img src="${item.photoInfo}" width="200" height="150"></td>
     `;
     //행을 추가하는 용도이다.
     tableBody.appendChild(row);
