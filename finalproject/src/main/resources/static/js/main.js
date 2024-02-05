@@ -164,7 +164,7 @@ function toRadians(degrees) {
   // 카카오맵 api를 띄우는 코드
   var container = document.getElementById('map');
   var options = {
-    center: new kakao.maps.LatLng(37.570013917406, 126.9780542555),
+    center: new kakao.maps.LatLng(37.466348, 126.885793),
     level: 3
   };
   var map = new kakao.maps.Map(container, options);

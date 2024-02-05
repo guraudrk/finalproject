@@ -582,11 +582,11 @@ function openAdditionalPopup(parentPopup) {
   parentPopup.appendChild(additionalPopup);
 
   // 추가로 뜨는 팝업에 닫기 버튼에 대한 이벤트 리스너 추가
-  var additionalCloseButton = additionalPopup.querySelector('.additional-popup-close-btn');
-  additionalCloseButton.addEventListener('click', function () {
+  //var additionalCloseButton = additionalPopup.querySelector('.additional-popup-close-btn');
+  //additionalCloseButton.addEventListener('click', function () {
       // 추가로 뜨는 팝업을 닫기
-      parentPopup.removeChild(additionalPopup);
-  });
+  //    parentPopup.removeChild(additionalPopup);
+  //});
     // openPopup 함수 호출 시 생성한 팝업 객체를 변수에 저장
 //const myPopup = openPopup();
 
