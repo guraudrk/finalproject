@@ -1,5 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
 
+ // 전역 변수로 마커를 저장하는 배열
+ var markers = [];
+
 var loggedInUser;
 
 //id 저장.
@@ -62,6 +65,7 @@ async function getLoggedInUser() {
 
   document.getElementById("clear-markers-button").addEventListener("click", function () {
     clearMarkers(); // 마커를 모두 지우는 함수 호출
+    
 });
 
     /*
@@ -114,24 +118,13 @@ function isValidAddress(address) {
 }
 
 
-    // 전역 변수로 마커를 저장하는 배열
-  var markers = [];
+   
 
     // 전역 변수로 내 위치 마커를 저장하기 위한 변수 선언
     var myLocationMarker;
     
 
-    // 마커를 클리어하는 함수
-function clearMarkers() {
-  // 전역 변수로 선언된 markers 배열에 있는 모든 마커를 지웁니다.
-  markers.forEach(function (marker) {
-      marker.setMap(null);
-  });
-
-  // markers 배열 비우기
-  markers = [];
-}
-
+ 
 
 
     //좌측 탭- '주소1' 선택 드롭다운 엘리먼트에 대한 이벤트 리스너 추가
@@ -191,8 +184,9 @@ function clearMarkers() {
       // '확인' 버튼을 누르면 필터를 적용하고 마커를 표시하는 함수
   async function applyFilter() {
 
-    // 0. 이미 마커가 있다면 다 지운다.
-    clearMarkers();
+   
+
+ 
 
     // 1. DTO에서 데이터를 가져온다.
     const response = await fetch('/api/getMarkers');
@@ -442,6 +436,7 @@ if (item.maintenance !== '완료') {
 
   // 생성된 마커를 전역 배열에 저장
   markers.push(marker);
+  console.log("마커 생성 완료");
   console.log(marker);
    // 클러스터러 생성
 
@@ -662,7 +657,18 @@ console.log("데이터 상세보기 페이지로 가는 배열:",filteredData1);
   // 필터링된 데이터를 /detail 페이지로 전송하는 함수
 
 
-
+   // 마커를 클리어하는 함수
+   function clearMarkers() {
+    // 전역 변수로 선언된 markers 배열에 있는 모든 마커를 지웁니다.
+    markers.forEach(function (marker) {
+        marker.setMap(null);
+    });
+  
+    // markers 배열 비우기
+    markers = [];
+    console.log("마커 삭제 완료");
+  }
+  
 
     // 도로명주소로 변환하는 함수
     // 비동기 함수의 결과에 따라 promise의 resolve,reject 둘중 하나가 실행됨.
