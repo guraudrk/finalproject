@@ -560,7 +560,7 @@ polyline.setMap(map);
 
 
 /*setInterval을 통해서 시간 간격을 두고 함수를 지속적으로 호출한다.*/ 
-//setInterval(startPolly, 10000);
+setInterval(startPolly, 10000);
 //차는 빠르게 달리기 때문에, 경고가 는 간격을 길게 조절한다.
 
 
