@@ -14,7 +14,7 @@ body {
     left: 0;
    
     display: flex;
-    width: calc(100% - 160px);
+    width: calc(100% - 120px);
     height: 80px;
     padding: 0 80px;
     background: #842ba3;
@@ -85,7 +85,13 @@ body {
 #filtered-data-table{
   width:1400px;
 }
-
+#memberId{
+  border-radius: 8px; /* 끝을 뭉특하게 만들기 위한 속성 */
+    border: 2px solid #333; /* 경계선을 진하게 만들기 위한 속성 */
+   
+    padding: 10px; /* 내부 여백 설정 */
+    margin-right: 10px; /* 오른쪽 간격 설정 */
+}
 #filtered-data-table th,
 #filtered-data-table td {
     padding: 10px;
@@ -238,6 +244,9 @@ body {
   max-width: 100px; /* 버튼의 최대 너비 설정 */
   max-height: 50px;
 }
+#memberId_filter{
+  margin-left:10px
+}
 /* 시작 날짜/주소1/종료 날짜/주소2/마커 지우기/확인 이 모두 가로로 일렬로 있게 해줘. */
 #filter-container label,
 #filter-container select,
@@ -245,11 +254,16 @@ body {
 #filter-container button {
     flex: 1; /* 같은 너비로 요소들을 채우기 */
 }
+#memberidinsert
+{
 
+}
 
 #filter-container label {
-  margin-right: 10px;
-  display: block;
+  margin-right: 15px;
+  display: inline-block; /*인라인 블록 요소로 설정해서 한 줄에 쓰이도록 한다.*/
+  font-size: 14px;
+  white-space: nowrap; /* 텍스트가 한 줄을 넘어갈 경우 줄 바꿈 금지 */
 }
 
 #filter-container select,

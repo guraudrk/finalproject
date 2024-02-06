@@ -67,17 +67,18 @@ body {
 
 .my-location-button {
   cursor: pointer;
+  display:none;
 }
 
 #webcam {
   /*width: 100%;*/
   max-width: 640px;
   position: absolute;
-  top: calc(50% + 20px); /* 중앙 위치에서 20px 아래로 */  
+  top: 80px; /* 중앙 위치에서 20px 아래로 */  
   /*이런 식으로 여백을 두어야 map과 webcam간의 간격이 확보된다.*/
   left: 0;
   margin: 20px;
-  z-index: 100;
+  z-index: 10000;
 }
 
 #map {

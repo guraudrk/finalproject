@@ -125,9 +125,33 @@ for (const item of data) {
   console.log('시작날짜:', new Date(startDate));
   console.log('종료날짜:', new Date(endDate));
 }
+
+
+
 // 최종 필터링된 데이터 출력
 console.log('Filtered Data:', filteredData);
 
+//정렬을 저절로 해준다. 먼저 creationTime을 기준으로 한다.
+filteredData.sort((a,b)=>{
+  if(a['creationTime']<b['creationTime']){
+    return -1;
+  }
+  if(a['creationTime']>b['creationTime']){
+    return 1;
+  }
+  return 0;
+});
+
+//다음에는 memberId 기준으로 한다.
+filteredData.sort((a,b)=>{
+  if(a['memberId']<b['memberId']){
+    return -1;
+  }
+  if(a['memberId']>b['memberId']){
+    return 1;
+  }
+  return 0;
+});
 
 // 필터링된 데이터를 테이블에 추가한다. 만약, 데이터가 없다면, 함수를 따로 실행시키지는 않고, 경고 메시지가 뜬다.
 if(filteredData.length>0){
@@ -140,6 +164,74 @@ else if(filteredData.length==0){
 }
 
   }
+
+
+
+  //아이디로 검색 버튼을 누른다면,모든 데이터에서, 해당 id가 있는 것을 출력한다.
+ document.getElementById("memberId-apply-button").addEventListener("click", function(){
+findByName();
+ })
+
+ //이름으로 데이터를 찾아주는 함수.
+ async function findByName(){
+  //가장 먼저, 배열을 초기화한다.
+  filteredData=[];
+  
+  const memberid = document.getElementById("memberId").value; //입력한 memberId값을 가져온다.
+   //  DTO에서 데이터를 가져온다.
+   const response = await fetch('/api/getMarkers');
+   const data = await response.json();
+
+   //for문을 돌린다.
+   for (const item of data){
+
+     // 비동기적으로 주소를 가져오기 위해 Promise를 사용
+  const address = await convertLatLngToAddress(item.lat, item.lng)
+  const itemWithAddress = { ...item, address }; // 기존 항목에 주소 추가
+  
+    //입력한 id와 같은 것만 배열에 추가한다.
+    if(item.memberId===memberid){
+      filteredData.push(itemWithAddress);
+
+    }
+
+
+   }
+   // 최종 필터링된 데이터 출력
+console.log('Filtered Data:', filteredData);
+
+//정렬을 저절로 해준다. 먼저 creationTime을 기준으로 한다.
+filteredData.sort((a,b)=>{
+  if(a['creationTime']<b['creationTime']){
+    return -1;
+  }
+  if(a['creationTime']>b['creationTime']){
+    return 1;
+  }
+  return 0;
+});
+
+//다음에는 memberId 기준으로 한다.
+filteredData.sort((a,b)=>{
+  if(a['memberId']<b['memberId']){
+    return -1;
+  }
+  if(a['memberId']>b['memberId']){
+    return 1;
+  }
+  return 0;
+});
+
+// 필터링된 데이터를 테이블에 추가한다. 만약, 데이터가 없다면, 함수를 따로 실행시키지는 않고, 경고 메시지가 뜬다.
+if(filteredData.length>0){
+  renderFilteredData();
+  alert("데이터가 "+filteredData.length+"건 생성되었습니다.");
+}
+else if(filteredData.length==0){
+  alert("조건에 맞는 데이터가 없습니다.");
+  renderFilteredData();
+}
+ }
 
 // 필터링된 데이터를 테이블에 추가하는 함수
 function renderFilteredData() {
@@ -158,28 +250,33 @@ function renderFilteredData() {
   // 년/월/일로 포맷팅
   const formattedDate = `${creationDate.getFullYear()}-${(creationDate.getMonth() + 1).toString().padStart(2, '0')}-${creationDate.getDate().toString().padStart(2, '0')}`;
   
-  //1970-01-01이면 null로 출력한다.
+  //1970-01-01이면 빈칸으로 출력한다.
   const changedDate = completionTime && completionTime.getTime() !== 0 ? 
   `${completionTime.getFullYear()}-${(completionTime.getMonth() + 1).toString().padStart(2, '0')}-${completionTime.getDate().toString().padStart(2, '0')}` 
-  : null;  
+  : '';  
   const maintenanceStatus = item.maintenance ? item.maintenance : '미완료'; // maintenance가 null이면 '미완료'로 설정
 
   //유지 보수 여부가 'null'이면 '미완료'로 바꾸기
   
+
+  //멤버 id가 'null'이면 ''으로 바꾸기
+  const memberIdStatus = item.memberId ? item.memberId : '';
 
     row.innerHTML = `
       <td>${item.address}</td>
       <td>${item.categoryId}</td>
       <td>${formattedDate}</td>
       <td>${maintenanceStatus}</td>
-      <td>${item.memberId}</td>
+      <td>${memberIdStatus}</td>
       <td>${changedDate}</td>
       <td><img src="${item.photoInfo}" width="200" height="150"></td>
     `;
     //행을 추가하는 용도이다.
     tableBody.appendChild(row);
+    
   });
 }
+
 
 // 도로명주소로 변환하는 함수
     // 비동기 함수의 결과에 따라 promise의 resolve,reject 둘중 하나가 실행됨.

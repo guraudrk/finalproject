@@ -21,9 +21,9 @@
       });</script>
 </head>
 <body>
-     <div class="responsive-iframe">
+     <!-- <div class="responsive-iframe">
     <iframe src="http://127.0.0.1:5000/" width="480" height="320" frameborder="0" scrolling="no"></iframe>
-    </div>
+    </div> -->
     
     <div id="nav">
         <div class="icon-container">ROADs</div>
@@ -35,15 +35,15 @@
         </div>
 
         <ul class="gnb">
-            <li><a href="/main">메인</a></li>
+             <li><a href="/main">메인</a></li> 
             <!-- loggedInUser가 null이 아닌 경우에만 보이도록 설정 -->
             <li th:if="${loggedInUser != null}"><a href="/goofficer">지자체 페이지</a></li>
             <li th:if="${loggedInUser != null}"><a href="/detail">데이터 상세보기</a></li>
-            <li class="my-location-button">내 위치</li>
+             <li class="my-location-button">내 위치</li> 
         </ul>
     </div>
     
   
-    <video id="webcam" width="320" height="240" ></video>
+    <video id="webcam" width="320" height="240" autoplay></video>
     <div id="map" style="width:100%; height: calc(100vh - 80px);"></div>
     <script src="/static/js/main.js"></script>

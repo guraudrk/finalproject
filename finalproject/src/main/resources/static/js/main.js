@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var markerNotiStatus = [];
 
   //거리의 기준을 설정하는 변수.(미터 단위)
-  const maxDistance = 1000;
+  const maxDistance = 100;
 
 
   //내 위치의 위도/경도를 전역변수로 설정
@@ -187,7 +187,40 @@ function toRadians(degrees) {
 
  
 
+// 내 위치 버튼을 눌렀을 때 지도를 내 위치로 이동
+document.querySelector('.my-location-button').addEventListener('click', function () {
+  navigator.geolocation.getCurrentPosition(function (position) {
+    let lat2 = position.coords.latitude;
+    let lng2 = position.coords.longitude;
 
+
+
+    lat1 = lat2;
+    lng1 = lng2;
+   
+     // 기존에 있던 내 위치 마커를 제거
+     if (myLocationMarker) {
+      myLocationMarker.setMap(null);
+      map.setCenter(new kakao.maps.LatLng(lat2, lng2));
+    }
+// 내 위치 마커 이미지 정의
+var myLocationImage = new kakao.maps.MarkerImage(
+'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/free-icon-gps-navigation-5142952.png', 
+new kakao.maps.Size(45, 45), // 마커 이미지 크기
+{ offset: new kakao.maps.Point(15, 15) } // 마커 이미지 좌표 설정 (가운데 정렬을 위해)
+);
+    // 내 위치 마커 생성 및 지도에 추가
+    myLocationMarker = new kakao.maps.Marker({
+      position: new kakao.maps.LatLng(lat2, lng2),
+      map: map,
+      image: myLocationImage, // 내 위치 마커 이미지 설정
+    });
+    
+
+  }, function (error) {
+    console.error('Error getting current location:', error);
+  });
+});
 
 
 
@@ -300,6 +333,7 @@ function startWatchingPostion(){
   //
   navigator.geolocation.watchPosition(function (position) {
     updatemylocation();
+    
   }, function (error) {
     console.error('Error getting current location:', error);
   });
@@ -412,39 +446,7 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
   return distance;
 }
 
-  // 내 위치 버튼을 눌렀을 때 지도를 내 위치로 이동
-  document.querySelector('.my-location-button').addEventListener('click', function () {
-    navigator.geolocation.getCurrentPosition(function (position) {
-      var lat = position.coords.latitude;
-      var lng = position.coords.longitude;
-
-
-
-      lat1 = lat;
-      lng1 = lng;
-      map.setCenter(new kakao.maps.LatLng(lat, lng));
-       // 기존에 있던 내 위치 마커를 제거
-       if (myLocationMarker) {
-        myLocationMarker.setMap(null);
-      }
- // 내 위치 마커 이미지 정의
- var myLocationImage = new kakao.maps.MarkerImage(
-  'https://playdataroads.s3.ap-northeast-2.amazonaws.com/iconimage/free-icon-gps-navigation-5142952.png', 
-  new kakao.maps.Size(45, 45), // 마커 이미지 크기
-  { offset: new kakao.maps.Point(15, 15) } // 마커 이미지 좌표 설정 (가운데 정렬을 위해)
-);
-      // 내 위치 마커 생성 및 지도에 추가
-      myLocationMarker = new kakao.maps.Marker({
-        position: new kakao.maps.LatLng(lat, lng),
-        map: map,
-        image: myLocationImage, // 내 위치 마커 이미지 설정
-      });
-      
-
-    }, function (error) {
-      console.error('Error getting current location:', error);
-    });
-  });
+  
 
 
 
@@ -560,7 +562,7 @@ polyline.setMap(map);
 
 
 /*setInterval을 통해서 시간 간격을 두고 함수를 지속적으로 호출한다.*/ 
-setInterval(startPolly, 10000);
+setInterval(startPolly, 50000);
 //차는 빠르게 달리기 때문에, 경고가 는 간격을 길게 조절한다.
 
 

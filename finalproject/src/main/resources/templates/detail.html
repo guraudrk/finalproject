@@ -61,9 +61,15 @@
             
         </div>
     
+    
         <button id="apply-button" onclick="applyFilter()">검색</button>
-        
+        <div id="memberId_filter">
+            <label id="memberidinsert"for="memberIdlabel">ID입력:</label>
+                <input type="id" id="memberId">
+                <button id="memberId-apply-button" >ID 검색</button>
+        </div>     
     </div>
+   
      <!-- 필터링된 데이터를 표시할 테이블 -->
      <!--테이블이기 때문에, thead,tbody가 있다. -->
      <!-- tr은 가로줄, th는 테마를 적는데 쓰인다.-->
@@ -77,7 +83,7 @@
                     <th>유지보수 여부</th>
                     <th>멤버 ID</th>
                     <th>완료 시간</th>
-                    <th>사진</th>
+                    <th >사진</th>
                 </tr>
             </thead>
             <tbody id="filtered-data-body">
